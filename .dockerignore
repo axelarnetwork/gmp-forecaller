@@ -27,3 +27,6 @@ yarn-error.log*
 Dockerfile*
 docker-compose*
 .dockerignore
+
+# terraform
+terraform
