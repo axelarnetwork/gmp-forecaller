@@ -1,0 +1,23 @@
+version: '3.6'
+services:
+  axelar-gmp-forecaller:
+    container_name: axelar-gmp-forecaller
+    image: node:17.7.2-alpine
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - NODE_NO_WARNINGS=1
+      - ENVIRONMENT=testnet
+    volumes:
+      - .:/usr/src/axelar-gmp-forecaller
+      - node_modules:/usr/src/axelar-gmp-forecaller/node_modules
+    networks:
+      - axelar-gmp-forecaller
+    command: npm run start
+volumes:
+  node_modules:
+networks:
+  axelar-gmp-forecaller:
+    driver: bridge

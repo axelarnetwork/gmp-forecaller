@@ -1,0 +1,30 @@
+{
+  "name": "gmp-forecaller",
+  "version": "0.1.0",
+  "description": "The forecaller service for General Message Passing",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js",
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axelarnetwork/gmp-forecaller.git"
+  },
+  "author": "axelar.network",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/axelarnetwork/gmp-forecaller/issues"
+  },
+  "homepage": "https://github.com/axelarnetwork/gmp-forecaller#readme",
+  "dependencies": {
+    "@ethersproject/experimental": "^5.7.0",
+    "axios": "^1.1.2",
+    "config-yml": "^0.10.3",
+    "defender-relay-client": "^1.31.1",
+    "ethers": "^5.7.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4"
+  }
+}
