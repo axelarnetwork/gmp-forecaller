@@ -8,7 +8,7 @@ mainnet:
   forecall:
     concurrent_transaction: 20
     delay_ms_per_batch: 5000
-    gas_remain_x_threshold: 3
+    gas_remain_x_threshold: 2.0
   chains:
     ethereum:
       contract_address: ""
@@ -151,7 +151,7 @@ testnet:
   forecall:
     concurrent_transaction: 20
     delay_ms_per_batch: 5000
-    gas_remain_x_threshold: 3
+    gas_remain_x_threshold: 2.0
   chains:
     ethereum:
       contract_address: ""
