@@ -1,6 +1,7 @@
 const {
   BigNumber,
   Contract,
+  FixedNumber,
   utils: { formatUnits },
 } = require('ethers');
 const config = require('config-yml');
@@ -131,6 +132,23 @@ const forecall = async (
           _amount >= min &&
           _amount <= max
         );
+
+        if (not_to_forecall) {
+          log(
+            'debug',
+            service_name,
+            'not forecall',
+            {
+              transactionHash,
+              transactionIndex,
+              logIndex,
+              symbol,
+              amount: _amount,
+              min,
+              max,
+            },
+          );
+        }
       }
       else {
         not_to_forecall = true;
@@ -175,7 +193,7 @@ const forecall = async (
                     sender,
                     payload,
                     symbol,
-                    amount?.toString(),
+                    amount,
                     signer_address,
                   );
                   break;
@@ -186,24 +204,57 @@ const forecall = async (
 
             if (
               !gasLimit ||
-              BigNumber.from(gasLimit)
-                .mul(
-                  BigNumber.from(
-                    (
-                      gas_remain_x_threshold ||
-                      1
-                    )
+              FixedNumber.fromString(
+                BigNumber.from(gasLimit)
+                  .toString()
+              )
+              .mulUnsafe(
+                FixedNumber.fromString(
+                  gas_remain_x_threshold
                     .toString()
-                  )
                 )
-                .gt(
-                  BigNumber.from(gas_remain)
+              )
+              .gt(
+                FixedNumber.fromString(
+                  gas_remain
                 )
+              )
             ) {
               not_to_forecall = true;
+
+              log(
+                'debug',
+                service_name,
+                'not forecall',
+                {
+                  transactionHash,
+                  transactionIndex,
+                  logIndex,
+                  gasLimit:
+                    (gasLimit ?
+                      BigNumber.from(gasLimit) :
+                      gasLimit
+                    )
+                    .toString(),
+                  gas_remain,
+                  gas_remain_x_threshold,
+                },
+              );
             }
           } catch (error) {
             not_to_forecall = true;
+
+            log(
+              'debug',
+              service_name,
+              'not forecall',
+              {
+                transactionHash,
+                transactionIndex,
+                logIndex,
+                error,
+              },
+            );
           }
         }
       }

@@ -53,12 +53,28 @@ const saveGMP = async (
       event,
     };
 
-    log(
-      'info',
-      service_name,
-      'save gmp',
-      { ...params },
-    );
+    switch (event) {
+      case 'forecalling':
+      case 'not_to_forecall':
+        log(
+          'info',
+          service_name,
+          event,
+          {
+            sourceTransactionHash,
+            sourceTransactionIndex,
+            sourceTransactionLogIndex,
+          },
+        );
+      default:
+        log(
+          'info',
+          service_name,
+          'save gmp',
+          { ...params },
+        );
+        break;
+    }
 
     const response = await api.post(
       '/',

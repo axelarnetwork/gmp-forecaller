@@ -1,7 +1,7 @@
 const config = require('config-yml');
 const {
   runForecall,
-} = require('./forecall');
+} = require('./process');
 const {
   getSigner,
   getProvider,

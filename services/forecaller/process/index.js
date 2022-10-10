@@ -82,11 +82,7 @@ module.exports.runForecall = async (
       }
 
       // hold function for asynchronous
-      await sleep(
-        data?.length > 0 ?
-          delay :
-          1000
-      );
+      await sleep(delay);
     }
   };
 };

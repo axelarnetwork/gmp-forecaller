@@ -214,7 +214,7 @@ const getGasOverrides = async (
             sender,
             payload,
             symbol,
-            amount?.toString(),
+            amount,
             address,
           );
           break;
@@ -577,7 +577,7 @@ const getOverridesOnRetry = async (
                 sender,
                 payload,
                 symbol,
-                amount?.toString(),
+                amount,
                 address,
               );
               break;
