@@ -204,20 +204,20 @@ const forecall = async (
 
             if (
               !gasLimit ||
-              FixedNumber.fromString(
-                BigNumber.from(gasLimit)
-                  .toString()
-              )
-              .mulUnsafe(
+              parseInt(
                 FixedNumber.fromString(
-                  gas_remain_x_threshold
+                  BigNumber.from(gasLimit)
                     .toString()
                 )
-              )
-              .gt(
-                FixedNumber.fromString(
-                  gas_remain
+                .mulUnsafe(
+                  FixedNumber.fromString(
+                    gas_remain_x_threshold
+                      .toString()
+                  )
                 )
+              ) >
+              parseInt(
+                gas_remain
               )
             ) {
               not_to_forecall = true;
@@ -252,7 +252,7 @@ const forecall = async (
                 transactionHash,
                 transactionIndex,
                 logIndex,
-                error,
+                error: error?.message,
               },
             );
           }

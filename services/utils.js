@@ -19,7 +19,7 @@ const {
 } = require('../utils');
 const IAxelarForecallable = require('../data/contracts/interfaces/IAxelarForecallable.json');
 
-const service_name = 'forecaller';
+const service_name = 'utils';
 const environment = process.env.ENVIRONMENT;
 
 const {

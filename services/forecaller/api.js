@@ -1,5 +1,4 @@
 const axios = require('axios');
-const _ = require('lodash');
 const config = require('config-yml');
 const {
   log,
@@ -66,6 +65,7 @@ const saveGMP = async (
             sourceTransactionLogIndex,
           },
         );
+        break;
       default:
         log(
           'info',
@@ -83,12 +83,20 @@ const saveGMP = async (
 
     output = response?.data;
 
+    const {
+      _id,
+      result,
+    } = { ...output?.response };
+
     log(
       'debug',
       service_name,
       'save gmp result',
       {
-        output,
+        output: {
+          id: _id,
+          result,
+        },
         params,
       },
     );
@@ -115,6 +123,10 @@ const searchGMP = async (
       ...params,
       method: 'searchGMP',
     };
+
+    const {
+      status,
+    } = { ...params };
 
     log(
       'info',
@@ -144,13 +156,13 @@ const searchGMP = async (
       service_name,
       'search gmp result',
       {
-        output: output?.data?.length === 1 ?
-          _.head(output.data) :
-          {
-            ...output,
-            data: `${output?.data?.length} records`,
-          },
-        params,
+        output: {
+          ...output,
+          data: output?.data?.length > 0 ?
+            output.data
+              .map(d => d?.id) :
+            `No remaining ${status} calls`,
+        },
       },
     );
   }
