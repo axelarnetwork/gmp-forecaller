@@ -32,9 +32,23 @@ docker-compose restart axelar-gmp-forecaller
 2. [Configuring the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
 3. [Install terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
 
+### start service
+### Testnet
 ```bash
 yarn
 cd ./terraform/testnet
 terraform init
 terraform apply
 ```
+- open [AWS console](https://console.aws.amazon.com/lambda/home#/functions/axelar-gmp-forecaller-testnet?tab=configure)
+- add trigger EventBridge (CloudWatch Events): `axelar-gmp-forecaller-testnet-rule`
+
+### Mainnet
+```bash
+yarn
+cd ./terraform/mainnet
+terraform init
+terraform apply
+```
+- open [AWS console](https://console.aws.amazon.com/lambda/home#/functions/axelar-gmp-forecaller-mainnet?tab=configure)
+- add trigger EventBridge (CloudWatch Events): `axelar-gmp-forecaller-mainnet-rule`
