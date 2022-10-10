@@ -2,6 +2,18 @@
 The forecaller service for General Message Passing.
 
 # Deployments
+### clone project
+```
+cd $HOME
+git clone https://github.com/axelarnetwork/gmp-forecaller
+cd gmp-forecaller
+git pull
+```
+
+There are 2 options for deployments
+- [Docker](#deploy-on-docker)
+- [AWS services](#deploy-on-aws-services)
+
 ## Deploy on Docker
 ### Prerequisites
 OS: Ubuntu
