@@ -18,6 +18,18 @@ There are 2 options for deployments
 ### Prerequisites
 OS: Ubuntu
 
+### install docker
+```
+curl -fsSL get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo chmod 666 /var/run/docker.sock
+```
+
+### configure environment
+set your `ENVIRONMENT` in `docker-compose.yml` file
+value: `testnet` | `mainnet`
+default: `testnet`
+
 ### start service
 ```bash
 cd $HOME/gmp-forecaller
