@@ -27,8 +27,10 @@ sudo chmod 666 /var/run/docker.sock
 
 ### configure environment
 set your `ENVIRONMENT` in `docker-compose.yml` file
-value: `testnet` | `mainnet`
-default: `testnet`
+```
+value: testnet | mainnet
+default: testnet
+```
 
 ### start service
 ```bash
