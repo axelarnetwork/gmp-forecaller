@@ -231,11 +231,10 @@ const forecall = async (
                   transactionIndex,
                   logIndex,
                   gasLimit:
-                    (gasLimit ?
-                      BigNumber.from(gasLimit) :
-                      gasLimit
-                    )
-                    .toString(),
+                    gasLimit ?
+                      BigNumber.from(gasLimit)
+                        .toString() :
+                      gasLimit,
                   gas_remain,
                   gas_remain_x_threshold,
                 },
