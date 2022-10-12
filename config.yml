@@ -153,7 +153,7 @@ testnet:
     delay_ms_per_batch: 5000
     gas_remain_x_threshold: 2.0
   chains:
-    ethereum:
+    ethereum-2:
       contract_address: ""
       endpoints:
         rpc:
