@@ -143,6 +143,83 @@ mainnet:
           decimals: 6
           min: 5
           max: 50
+    arbitrum:
+      contract_address: ""
+      endpoints:
+        rpc:
+          - "https://arbitrum-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+          - "https://rpc.ankr.com/arbitrum"
+          - "https://arb1.arbitrum.io/rpc"
+      ozd:
+        api_key: ""
+        api_secret: ""
+        speed: "fast"
+      wallet:
+        private_key: ""
+      default_gas_limit: "700000"
+      gas_adjustment_rate: 1.2
+      symbols:
+        USDC:
+          decimals: 6
+          min: 5
+          max: 50
+    optimism:
+      contract_address: ""
+      endpoints:
+        rpc:
+          - "https://rpc.ankr.com/optimism"
+          - "https://mainnet.optimism.io"
+      ozd:
+        api_key: ""
+        api_secret: ""
+        speed: "fast"
+      wallet:
+        private_key: ""
+      default_gas_limit: "700000"
+      gas_adjustment_rate: 1.2
+      symbols:
+        USDC:
+          decimals: 6
+          min: 5
+          max: 50
+    celo:
+      contract_address: ""
+      endpoints:
+        rpc:
+          - "https://rpc.ankr.com/celo"
+          - "https://forno.celo.org"
+      ozd:
+        api_key: ""
+        api_secret: ""
+        speed: "fast"
+      wallet:
+        private_key: ""
+      default_gas_limit: "700000"
+      gas_adjustment_rate: 1.2
+      symbols:
+        USDC:
+          decimals: 6
+          min: 5
+          max: 50
+    kava:
+      contract_address: ""
+      endpoints:
+        rpc:
+          - "https://evm.kava.io"
+          - "https://evm2.kava.io"
+      ozd:
+        api_key: ""
+        api_secret: ""
+        speed: "fast"
+      wallet:
+        private_key: ""
+      default_gas_limit: "700000"
+      gas_adjustment_rate: 1.2
+      symbols:
+        USDC:
+          decimals: 6
+          min: 5
+          max: 50
 
 
 
@@ -275,6 +352,78 @@ testnet:
       endpoints:
         rpc:
           - "https://testnet.aurora.dev"
+      ozd:
+        api_key: ""
+        api_secret: ""
+        speed: "fast"
+      wallet:
+        private_key: ""
+      default_gas_limit: "700000"
+      gas_adjustment_rate: 1.4
+      symbols:
+        USDC:
+          decimals: 6
+          min: 5
+          max: 50
+    arbitrum:
+      contract_address: ""
+      endpoints:
+        rpc:
+          - "https://goerli-rollup.arbitrum.io/rpc"
+      ozd:
+        api_key: ""
+        api_secret: ""
+        speed: "fast"
+      wallet:
+        private_key: ""
+      default_gas_limit: "700000"
+      gas_adjustment_rate: 1.4
+      symbols:
+        USDC:
+          decimals: 6
+          min: 5
+          max: 50
+    optimism:
+      contract_address: ""
+      endpoints:
+        rpc:
+          - "https://goerli.optimism.io"
+      ozd:
+        api_key: ""
+        api_secret: ""
+        speed: "fast"
+      wallet:
+        private_key: ""
+      default_gas_limit: "700000"
+      gas_adjustment_rate: 1.4
+      symbols:
+        USDC:
+          decimals: 6
+          min: 5
+          max: 50
+    celo:
+      contract_address: ""
+      endpoints:
+        rpc:
+          - "https://alfajores-forno.celo-testnet.org"
+      ozd:
+        api_key: ""
+        api_secret: ""
+        speed: "fast"
+      wallet:
+        private_key: ""
+      default_gas_limit: "700000"
+      gas_adjustment_rate: 1.4
+      symbols:
+        USDC:
+          decimals: 6
+          min: 5
+          max: 50
+    kava:
+      contract_address: ""
+      endpoints:
+        rpc:
+          - "https://evm.testnet.kava.io"
       ozd:
         api_key: ""
         api_secret: ""
