@@ -1,5 +1,22 @@
 # General Message Passing Forecaller
-The forecaller service for General Message Passing.
+The forecalling service for General Message Passing.
+
+# Prerequisite
+Setup the `config.yml`.
+
+## config.yml
+The forecaller supports running on both `mainnet` and `testnet`. Please fill in details in the network section your application is running on. 
+
+There're 2 main configuration fields in each network section:
+
+- `forecall` is a general setup to run the service, including the concurrent transaction to forecall at a time, the minimum gas amount threshold, etc.
+
+- `chains` is a specific setup for the service on each chain. The following fields are required to be configured under this section. 
+    - `contract_address`: the application's destination contract address. You can set up __a contract address at a time for each chain__. If you have multiple contract addresses per chain, we suggest forking the project and running separate processes.
+   - `ozd`: specify your API Key and API Secret to activate using OpenZeppelin Defender as the relayer service. Otherwise, you can leave it blank and set up the `wallet` instead.
+   - `wallet`: specify in your forecalled wallet's private key.
+Note: if `ozd` and `wallet` are both set, the forecaller uses the `ozd` option and ignores the details set in `wallet`.
+   - `symbols`: fill in all the supported token symbols you want to forecall with their decimal, min & max amount conditions to be forecalled.
 
 # Deployments
 ### clone project
@@ -9,7 +26,6 @@ git clone https://github.com/axelarnetwork/gmp-forecaller
 cd gmp-forecaller
 git pull
 ```
-
 There are 2 options for deployments
 - [Docker](#deploy-on-docker)
 - [AWS services](#deploy-on-aws-services)
