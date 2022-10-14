@@ -2,21 +2,30 @@
 The forecalling service for General Message Passing.
 
 # Prerequisite
-Setup the `config.yml`.
+- Copy `config.yml.example` and paste it as `config.yml`. 
+- Set parameters in the `config.yml`. The file contains all conditions on when & which funded wallets to forecall. **Most of the configurations need to be done by the instantiator.**
 
 ## config.yml
-The forecaller supports running on both `mainnet` and `testnet`. Please fill in details in the network section your application is running on. 
 
-There're 2 main configuration fields in each network section:
+> :warning: Please make sure to never publish the `config.yml` file.
 
-- `forecall` is a general setup to run the service, including the concurrent transaction to forecall at a time, the minimum gas amount threshold, etc.
+Since the service supports running on both `mainnet` and `testnet`, there're separate configuration sections for each network. Please set up and modify the parameters in the network section the application is running on. 
 
-- `chains` is a specific setup for the service on each chain. The following fields are required to be configured under this section. 
-    - `contract_address`: the application's destination contract address. You can set up __a contract address at a time for each chain__. If you have multiple contract addresses per chain, we suggest forking the project and running separate processes.
-   - `ozd`: specify your API Key and API Secret to activate using OpenZeppelin Defender as the relayer service. Otherwise, you can leave it blank and set up the `wallet` instead.
-   - `wallet`: specify in your forecalled wallet's private key.
-Note: if `ozd` and `wallet` are both set, the forecaller uses the `ozd` option and ignores the details set in `wallet`.
-   - `symbols`: fill in all the supported token symbols you want to forecall with their decimal, min & max amount conditions to be forecalled.
+There're two main configurations under each network section.
+- `forecall` is the general condition when to trigger the service. It applies to all supported chains specified separately in `chains`. `forecall` comprises three parameters.
+    - `concurrent_transaction`: The number of transactions that will be forecalled in one batch. Transactions not included in the current batch will be in queue and added to the next batch.
+    - `delay_ms_per_batch`: The period to start the next batch. 
+    - `gas_remain_x_threshold`: The `x` times of the estimated gas. The remaining gas has to be over this amount to run the forecalling service. If gas cannot be estimated, the service applies the `default_gas_limit` value specified in `chains` instead. 
+- `chains` is a specific setup on each supported chain. The following are the required parameters to be modified by the instantiator. 
+    - `contract_address`: The application's destination contract address. __The file supports setting a contract address at a time for each chain__. If the application has multiple contract addresses per chain, we suggest forking the project and running them as separate processes.
+   - `ozd`: Specify the OpenZeppelin Defender's `API Key` and `API Secret Key` to use it as the relayer service. Otherwise, you can leave it blank and set the parameter under `wallet` instead.
+   - `wallet`: Specify the private key of the funded wallet. The service will use Ethers.js's `Wallet` signer to relay transactions with the provided wallet.
+     > :warning: The information in `ozd` and `wallet` is sensitive. So, please make sure to never publish the `config.yml` file.
+
+     > ℹ️ If `ozd` and `wallet` are both set, the forecaller uses the `ozd` option and ignores the parameter setup in `wallet`.
+  - `symbols` is a list of all assets supported in the specified contract address to be forecalled. The instantiator must specify each asset's symbol, decimal, and min/max amount conditions.
+
+> ℹ️: Restarting service is needed if any changes have been made through the file after the service has already been started.
 
 # Deployments
 ### clone project
