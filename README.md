@@ -18,8 +18,8 @@ Each network contains a forecall and chains section you must fill to run the for
 - `forecall` specifies the rules based on which the forecall service will run. Those rules are applied to **all supported chains** in the network.
   - `concurrent_transaction`: The number of transactions that will be forecalled in one batch. Transactions not included in the current batch will be put in a queue and added to the next batch.
   - `delay_ms_per_batch`: The delay in milliseconds before starting the next batch.
-  - `gas_remain_x_threshold`: Specifies the gas threshold multiplier to run the forecall service. The gas threshold is: `x * estimated_gas`. The remaining gas has to be over this amount to run the forecalling service. If gas cannot be estimated, the service applies the `default_gas_limit` value specified in `chains` instead.
-- `chains` specifies the configuraiton for every supported chain. The following are the required parameters to be modified by the instantiator.
+  - `gas_remain_x_threshold`: Specifies the gas threshold multiplier to run the forecall service. The gas threshold is: `x * estimated_gas`. The remaining gas has to be over this amount to run the forecalling service. If gas cannot be estimated, the service applies the `default_gas_limit` value specified in `chains` instead. So the threshold will be `default_gas_limit * x` instead.
+- `chains` specifies the configuration for every supported chain. The following are the required parameters to be modified by the instantiator.
 
   - `contract_address`: The application's destination contract address. **Only one contract is supported per forecall service**. If the application has multiple contract addresses per chain, we suggest forking the project and running them as separate processes.
 
