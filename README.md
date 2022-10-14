@@ -9,7 +9,7 @@ The forecalling service for General Message Passing.
 
 > :warning: Please make sure to never publish the `config.yml` file.
 
-Since the service supports running on both `mainnet` and `testnet`, there're separate configuration sections for each network. Please set up and modify the parameters in the network section the application is running on. 
+There're separate configuration sections for each network; `mainnet` and `testnet`. Please set up and modify the parameters in the network section the application is running on. 
 
 There're two main configurations under each network section.
 - `forecall` is the general condition when to trigger the service. It applies to all supported chains specified separately in `chains`. `forecall` comprises three parameters.
@@ -18,14 +18,29 @@ There're two main configurations under each network section.
     - `gas_remain_x_threshold`: The `x` times of the estimated gas. The remaining gas has to be over this amount to run the forecalling service. If gas cannot be estimated, the service applies the `default_gas_limit` value specified in `chains` instead. 
 - `chains` is a specific setup on each supported chain. The following are the required parameters to be modified by the instantiator. 
     - `contract_address`: The application's destination contract address. __The file supports setting a contract address at a time for each chain__. If the application has multiple contract addresses per chain, we suggest forking the project and running them as separate processes.
+
    - `ozd`: Specify the OpenZeppelin Defender's `API Key` and `API Secret Key` to use it as the relayer service. Otherwise, you can leave it blank and set the parameter under `wallet` instead.
    - `wallet`: Specify the private key of the funded wallet. The service will use Ethers.js's `Wallet` signer to relay transactions with the provided wallet.
-     > :warning: The information in `ozd` and `wallet` is sensitive. So, please make sure to never publish the `config.yml` file.
+        
+        > :warning: Please make sure to never publish the `config.yml` file.
+      
+        > If `ozd` and `wallet` are both set, the forecaller uses the `ozd` option and ignores the parameter setup in `wallet`.
 
-     > ℹ️ If `ozd` and `wallet` are both set, the forecaller uses the `ozd` option and ignores the parameter setup in `wallet`.
-  - `symbols` is a list of all assets supported in the specified contract address to be forecalled. The instantiator must specify each asset's symbol, decimal, and min/max amount conditions.
+  - `symbols` is a list of all assets supported to be forecalled. The instantiator must specify each asset's symbol, decimal, and min/max amount conditions. 
 
-> ℹ️: Restarting service is needed if any changes have been made through the file after the service has already been started.
+     An example:
+     ```
+        symbols:
+            USDC:
+              decimals: 6
+              min: 5
+              max: 50
+     ``` 
+     It means that the forecaller will be triggerred if the token symbol is USDC and the amount is in the specified range (5 USDC - 50 USDC).
+
+``` 
+ℹ️: Restarting service is needed if any changes have been made through the file after the service has already been started.
+```
 
 # Deployments
 ### clone project
