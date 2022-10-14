@@ -11,7 +11,7 @@ The forecalling service for General Message Passing.
 
 > :warning: Please make sure to never publish the `config.yml` file.
 
-The `config.yml` file contains the confugrations for each network (`mainnet` and `testnet`) for running the forecall service.
+The `config.yml` file contains the configurations for each network (`mainnet` and `testnet`) for running the forecall service.
 
 Each network contains a forecall and chains section you must fill to run the forecall service.
 
