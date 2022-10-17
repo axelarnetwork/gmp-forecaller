@@ -25,7 +25,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -44,7 +44,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -64,7 +64,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -83,7 +83,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -102,7 +102,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -121,7 +121,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -139,7 +139,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -159,7 +159,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -178,7 +178,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -197,7 +197,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -216,7 +216,7 @@ mainnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
       symbols:
-        USDC:
+        axlUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -245,7 +245,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -265,7 +265,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -285,7 +285,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -304,7 +304,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -323,7 +323,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -343,7 +343,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -361,7 +361,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -379,7 +379,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -397,7 +397,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -415,7 +415,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
@@ -433,7 +433,7 @@ testnet:
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
       symbols:
-        USDC:
+        aUSDC:
           decimals: 6
           min: 5
           max: 50
