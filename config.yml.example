@@ -24,11 +24,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     binance:
       contract_address: ""
       endpoints:
@@ -43,11 +46,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     polygon:
       contract_address: ""
       endpoints:
@@ -63,11 +69,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     avalanche:
       contract_address: ""
       endpoints:
@@ -82,11 +91,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     fantom:
       contract_address: ""
       endpoints:
@@ -101,11 +113,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     moonbeam:
       contract_address: ""
       endpoints:
@@ -120,11 +135,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     aurora:
       contract_address: ""
       endpoints:
@@ -138,11 +156,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     arbitrum:
       contract_address: ""
       endpoints:
@@ -158,11 +179,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     optimism:
       contract_address: ""
       endpoints:
@@ -177,11 +201,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     celo:
       contract_address: ""
       endpoints:
@@ -196,11 +223,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     kava:
       contract_address: ""
       endpoints:
@@ -215,11 +245,14 @@ mainnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.2
-      symbols:
-        axlUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          axlUSDC:
+            decimals: 6
+            min: 5
+            max: 50
 
 
 
@@ -244,11 +277,14 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     binance:
       contract_address: ""
       endpoints:
@@ -264,11 +300,14 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     polygon:
       contract_address: ""
       endpoints:
@@ -284,11 +323,14 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     avalanche:
       contract_address: ""
       endpoints:
@@ -303,11 +345,14 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     fantom:
       contract_address: ""
       endpoints:
@@ -322,11 +367,14 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     moonbeam:
       contract_address: ""
       endpoints:
@@ -342,11 +390,14 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     aurora:
       contract_address: ""
       endpoints:
@@ -360,11 +411,14 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     arbitrum:
       contract_address: ""
       endpoints:
@@ -378,11 +432,14 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     optimism:
       contract_address: ""
       endpoints:
@@ -396,11 +453,14 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     celo:
       contract_address: ""
       endpoints:
@@ -414,11 +474,14 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
     kava:
       contract_address: ""
       endpoints:
@@ -432,8 +495,11 @@ testnet:
         private_key: ""
       default_gas_limit: "700000"
       gas_adjustment_rate: 1.4
-      symbols:
-        aUSDC:
-          decimals: 6
-          min: 5
-          max: 50
+      filter:
+        source_chains:
+          - ""
+        symbols:
+          aUSDC:
+            decimals: 6
+            min: 5
+            max: 50
