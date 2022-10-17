@@ -38,7 +38,7 @@ const forecall = async (
   const {
     id,
     signer,
-    symbols,
+    filter,
   } = { ...chain_config };
   const chain = id;
 
@@ -107,6 +107,9 @@ const forecall = async (
       !not_to_forecall &&
       !_overrides
     ) {
+      const {
+        symbols,
+      } = { ...filter };
       const {
         min,
         max,

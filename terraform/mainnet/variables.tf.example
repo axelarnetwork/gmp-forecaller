@@ -1,0 +1,184 @@
+variable "aws_region" {
+  description = "AWS region"
+  default     = "us-east-1"
+}
+
+variable "aws_profile" {
+  description = "AWS profile"
+  default     = "default"
+}
+
+variable "package_name" {
+  description = "Package name"
+  default     = "axelar-gmp-forecaller"
+}
+
+variable "environment" {
+  description = "Environment"
+  default     = "mainnet"
+}
+
+variable "ethereum_ozd_api_key" {
+  description = "ethereum OZD api key"
+  default     = ""
+}
+
+variable "ethereum_ozd_api_secret" {
+  description = "ethereum OZD api secret"
+  default     = ""
+}
+
+variable "ethereum_wallet_private_key" {
+  description = "ethereum wallet private key"
+  default     = ""
+}
+
+variable "binance_ozd_api_key" {
+  description = "binance OZD api key"
+  default     = ""
+}
+
+variable "binance_ozd_api_secret" {
+  description = "binance OZD api secret"
+  default     = ""
+}
+
+variable "binance_wallet_private_key" {
+  description = "binance wallet private key"
+  default     = ""
+}
+
+variable "polygon_ozd_api_key" {
+  description = "polygon OZD api key"
+  default     = ""
+}
+
+variable "polygon_ozd_api_secret" {
+  description = "polygon OZD api secret"
+  default     = ""
+}
+
+variable "polygon_wallet_private_key" {
+  description = "polygon wallet private key"
+  default     = ""
+}
+
+variable "avalanche_ozd_api_key" {
+  description = "avalanche OZD api key"
+  default     = ""
+}
+
+variable "avalanche_ozd_api_secret" {
+  description = "avalanche OZD api secret"
+  default     = ""
+}
+
+variable "avalanche_wallet_private_key" {
+  description = "avalanche wallet private key"
+  default     = ""
+}
+
+variable "fantom_ozd_api_key" {
+  description = "fantom OZD api key"
+  default     = ""
+}
+
+variable "fantom_ozd_api_secret" {
+  description = "fantom OZD api secret"
+  default     = ""
+}
+
+variable "fantom_wallet_private_key" {
+  description = "fantom wallet private key"
+  default     = ""
+}
+
+variable "moonbeam_ozd_api_key" {
+  description = "moonbeam OZD api key"
+  default     = ""
+}
+
+variable "moonbeam_ozd_api_secret" {
+  description = "moonbeam OZD api secret"
+  default     = ""
+}
+
+variable "moonbeam_wallet_private_key" {
+  description = "moonbeam wallet private key"
+  default     = ""
+}
+
+variable "aurora_ozd_api_key" {
+  description = "aurora OZD api key"
+  default     = ""
+}
+
+variable "aurora_ozd_api_secret" {
+  description = "aurora OZD api secret"
+  default     = ""
+}
+
+variable "aurora_wallet_private_key" {
+  description = "aurora wallet private key"
+  default     = ""
+}
+
+variable "arbitrum_ozd_api_key" {
+  description = "arbitrum OZD api key"
+  default     = ""
+}
+
+variable "arbitrum_ozd_api_secret" {
+  description = "arbitrum OZD api secret"
+  default     = ""
+}
+
+variable "arbitrum_wallet_private_key" {
+  description = "arbitrum wallet private key"
+  default     = ""
+}
+
+variable "optimism_ozd_api_key" {
+  description = "optimism OZD api key"
+  default     = ""
+}
+
+variable "optimism_ozd_api_secret" {
+  description = "optimism OZD api secret"
+  default     = ""
+}
+
+variable "optimism_wallet_private_key" {
+  description = "optimism wallet private key"
+  default     = ""
+}
+
+variable "celo_ozd_api_key" {
+  description = "celo OZD api key"
+  default     = ""
+}
+
+variable "celo_ozd_api_secret" {
+  description = "celo OZD api secret"
+  default     = ""
+}
+
+variable "celo_wallet_private_key" {
+  description = "celo wallet private key"
+  default     = ""
+}
+
+variable "kava_ozd_api_key" {
+  description = "kava OZD api key"
+  default     = ""
+}
+
+variable "kava_ozd_api_secret" {
+  description = "kava OZD api secret"
+  default     = ""
+}
+
+variable "kava_wallet_private_key" {
+  description = "kava wallet private key"
+  default     = ""
+}
