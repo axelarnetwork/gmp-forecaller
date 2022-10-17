@@ -51,7 +51,7 @@ resource "aws_iam_policy" "policy_secret" {
 resource "aws_iam_role" "role" {
   name                = "${var.package_name}-${var.environment}-role-lambda"
   assume_role_policy  = data.aws_iam_policy_document.policy.json
-  managed_policy_arns = [aws_iam_policy.policy_secret.arn]
+  managed_policy_arns = [aws_iam_policy.policy_secret.arn, "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"]
 }
 
 resource "aws_iam_policy_attachment" "attachment" {
