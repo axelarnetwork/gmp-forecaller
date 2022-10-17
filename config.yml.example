@@ -9,6 +9,19 @@ mainnet:
     concurrent_transaction: 20
     delay_ms_per_batch: 5000
     gas_remain_x_threshold: 2.0
+  min_confirmations:
+    ethereum: 1
+    binance: 1
+    polygon: 1
+    avalanche: 1
+    fantom: 1
+    moonbeam: 1
+    aurora: 1
+    arbitrum: 1
+    optimism: 1
+    celo: 1
+    kava: 1
+    default: 1
   chains:
     ethereum:
       contract_address: ""
@@ -262,6 +275,19 @@ testnet:
     concurrent_transaction: 20
     delay_ms_per_batch: 5000
     gas_remain_x_threshold: 2.0
+  min_confirmations:
+    ethereum-2: 1
+    binance: 1
+    polygon: 1
+    avalanche: 1
+    fantom: 1
+    moonbeam: 1
+    aurora: 1
+    arbitrum: 1
+    optimism: 1
+    celo: 1
+    kava: 1
+    default: 1
   chains:
     ethereum-2:
       contract_address: ""
