@@ -18,7 +18,7 @@ provider "archive" {}
 data "archive_file" "zip" {
   type        = "zip"
   source_dir  = "../../"
-  excludes    = ["terraform", ".gitignore", "README.md", "yarn.lock", ".dockerignore", "docker-compose.yml", "Dockerfile"]
+  excludes    = ["terraform", ".gitignore", "README.md", "yarn.lock", ".dockerignore", "docker-compose.yml", "Dockerfile", "config.yml.example"]
   output_path = "${var.package_name}.zip"
 }
 
@@ -34,9 +34,24 @@ data "aws_iam_policy_document" "policy" {
   }
 }
 
+resource "aws_iam_policy" "policy_secret" {
+  name   = "secret_manager_policy"
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect   = "Allow"
+        Action   = ["secretsmanager:GetSecretValue"]
+        Resource = ["*"]
+      }
+    ]
+  })
+}
+
 resource "aws_iam_role" "role" {
-  name               = "${var.package_name}-${var.environment}-role-lambda"
-  assume_role_policy = data.aws_iam_policy_document.policy.json
+  name                = "${var.package_name}-${var.environment}-role-lambda"
+  assume_role_policy  = data.aws_iam_policy_document.policy.json
+  managed_policy_arns = [aws_iam_policy.policy_secret.arn]
 }
 
 resource "aws_iam_policy_attachment" "attachment" {
