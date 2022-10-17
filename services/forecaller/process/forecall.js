@@ -27,6 +27,9 @@ const max_retry_time = 2;
 const {
   gas_remain_x_threshold,
 } = { ...config?.[environment]?.forecall };
+const {
+  min_confirmations,
+} = { ...config?.[environment] };
 
 const forecall = async (
   chain_config,
@@ -37,6 +40,7 @@ const forecall = async (
   // chain configuration
   const {
     id,
+    provider,
     signer,
     filter,
   } = { ...chain_config };
@@ -57,6 +61,10 @@ const forecall = async (
     transactionHash,
     transactionIndex,
     logIndex,
+    returnValues,
+  } = { ...call };
+  let {
+    receipt,
   } = { ...call };
   const sourceChain = call?.chain;
   const {
@@ -66,7 +74,10 @@ const forecall = async (
     payload,
     symbol,
     amount,
-  } = { ...call?.returnValues };
+  } = { ...returnValues };
+  let {
+    confirmations,
+  } = { ...receipt };
   const {
     gas_remain_amount,
   } = { ...gas };
@@ -278,6 +289,30 @@ const forecall = async (
       );
 
       return;
+    }
+
+    // check min confirmations
+    if (typeof confirmations === 'number') {
+      const _confirmations =
+        min_confirmations?.[sourceChain] ||
+        min_confirmations?.default ||
+        1;
+
+      if (confirmations < _confirmations) {
+        // update receipt
+        const _receipt = await provider.getTransactionReceipt(
+          transactionHash,
+        );
+
+        if (_receipt) {
+          receipt = _receipt;
+          confirmations = receipt.confirmations;
+        }
+
+        if (confirmations < _confirmations) {
+          return;
+        }
+      }
     }
 
     // initial overrides
