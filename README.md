@@ -30,7 +30,7 @@ Each network contains a forecall and chains section you must fill to run the for
 
     > If `ozd` and `wallet` are both set, the forecaller uses the `ozd` option and ignores the parameter setup in `wallet`.
 
-  - `symbols` is a list of all assets supported by the forecaller. The instantiator must specify each asset's symbol, decimal, and min/max amount conditions.
+  - `symbols`: The list of assets transferred that will be forecalled. The instantiator must specify each asset's symbol, decimal, and min/max amount conditions. `min` is the minimum, and `max` is the maximum value of each transfer.
 
     An example:
 
@@ -45,7 +45,7 @@ Each network contains a forecall and chains section you must fill to run the for
     It means that the forecaller will be triggerred if the token symbol is USDC and the amount is in the specified range (5 USDC - 50 USDC).
 
 ```
-ℹ️: Restarting service is needed if any changes have been made through the file after the service has already been started.
+ℹ️ Restarting service is needed if any changes have been made through the file after the service has already been started.
 ```
 
 # Deployments
