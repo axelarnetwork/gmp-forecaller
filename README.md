@@ -34,7 +34,7 @@ Each network contains a forecall, min_confirmations and chains section you must 
     > If you plan to deploy the service as a lambda function on AWS, please follow [this guide](https://github.com/axelarnetwork/gmp-forecaller#setup-openzeppelin-defender-keys-or-wallets-private-keys) instead of specifying `ozd` and `wallet` directly to the `config.yml` file.
 
   - `filter`: Specifies more specific criteria to trigger the forecall service.
-    - `source_chains`: Specifies the list of source chains that will be forecalled. Leave it blank to forecall all GMP calls initiated from all supported chains.
+    - `source_chains`: Specifies the list of source chains that will be forecalled. Leave it blank to forecall all GMP calls initiated on all supported chains.
     - `symbols`: The list of assets transferred that will be forecalled. The instantiator must specify each asset's symbol, decimal, and min/max amount conditions. `min` is the minimum, and `max` is the maximum value of each transfer. *This parameter is required. It cannot be blank.* 
 
     An example:
