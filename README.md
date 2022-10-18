@@ -31,7 +31,7 @@ Each network contains a forecall, min_confirmations and chains section you must 
 
     > If `ozd` and `wallet` are both set, the forecaller uses the `ozd` option and ignores the parameter setup in `wallet`.
 
-    > If you plan to deploy the service as a lambda function on AWS, please follow [this guide](https://github.com/axelarnetwork/gmp-forecaller/edit/main/README.md#setup-ozd-or-wallets-keys) instead of specifying `ozd` and `wallet` directly to the `config.yml` file.
+    > If you plan to deploy the service as a lambda function on AWS, please follow [this guide](https://github.com/axelarnetwork/gmp-forecaller#setup-openzeppelin-defender-keys-or-wallets-private-keys) instead of specifying `ozd` and `wallet` directly to the `config.yml` file.
 
   - `filter`: Specifies more specific criteria to trigger the forecall service.
     - `source_chains`: Specifies the list of source chains that will be forecalled. Leave it blank to forecall all GMP calls initiated from all supported chains.
@@ -138,7 +138,7 @@ docker-compose restart axelar-gmp-forecaller
 
 ### start service
 
-### Testnet
+#### Testnet
 
 ```bash
 yarn
@@ -150,7 +150,7 @@ terraform apply
 - open [AWS console](https://console.aws.amazon.com/lambda/home#/functions/axelar-gmp-forecaller-testnet?tab=configure)
 - add trigger EventBridge (CloudWatch Events): `axelar-gmp-forecaller-testnet-rule`
 
-### Mainnet
+#### Mainnet
 
 ```bash
 yarn
