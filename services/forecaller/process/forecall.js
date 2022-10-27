@@ -214,7 +214,23 @@ const forecall = async (
                 default:
                   break;
               }
-            } catch (error) {}
+            } catch (error) {
+              log(
+                'error',
+                service_name,
+                'cannot estimateGas',
+                {
+                  method_to_do,
+                  sourceChain,
+                  sender,
+                  payload,
+                  symbol,
+                  amount,
+                  signer_address,
+                  error: error?.message,
+                },
+              );
+            }
 
             if (
               !gasLimit ||
@@ -248,7 +264,8 @@ const forecall = async (
                     gasLimit ?
                       BigNumber.from(gasLimit)
                         .toString() :
-                      gasLimit,
+                      gasLimit ||
+                      null,
                   gas_remain,
                   gas_remain_x_threshold,
                 },
