@@ -44,6 +44,7 @@ const forecall = async (
     signer,
     filter,
   } = { ...chain_config };
+
   const chain = id;
 
   // message data
@@ -92,11 +93,12 @@ const forecall = async (
       await signer.getAddress();
 
     // initial contract
-    const contract = new Contract(
-      destinationContractAddress,
-      IAxelarForecallable.abi,
-      signer,
-    );
+    const contract =
+      new Contract(
+        destinationContractAddress,
+        IAxelarForecallable.abi,
+        signer,
+      );
 
     // mark forecalling
     await saveGMP(
@@ -109,9 +111,10 @@ const forecall = async (
       'forecalling',
     );
 
-    const method_to_do = event?.includes('WithToken') ?
-      'forecallWithToken' :
-      'forecall';
+    const method_to_do =
+      event?.includes('WithToken') ?
+        'forecallWithToken' :
+        'forecall';
 
     // check is gas remaining enough to forecall compare to the estimated gas
     if (
@@ -135,17 +138,21 @@ const forecall = async (
         amount &&
         decimals
       ) {
-        const _amount = Number(
-          formatUnits(
-            BigNumber.from(amount),
-            decimals,
-          )
-        );
+        const _amount =
+          Number(
+            formatUnits(
+              BigNumber.from(
+                amount
+              ),
+              decimals,
+            )
+          );
 
-        not_to_forecall = !(
-          _amount >= min &&
-          _amount <= max
-        );
+        not_to_forecall =
+          !(
+            _amount >= min &&
+            _amount <= max
+          );
 
         if (not_to_forecall) {
           log(
@@ -194,22 +201,26 @@ const forecall = async (
             try {
               switch (method_to_do) {
                 case 'forecall':
-                  gasLimit = await contract.estimateGas.forecall(
-                    sourceChain,
-                    sender,
-                    payload,
-                    signer_address,
-                  );
+                  gasLimit = await contract
+                    .estimateGas
+                    .forecall(
+                      sourceChain,
+                      sender,
+                      payload,
+                      signer_address,
+                    );
                   break;
                 case 'forecallWithToken':
-                  gasLimit = await contract.estimateGas.forecallWithToken(
-                    sourceChain,
-                    sender,
-                    payload,
-                    symbol,
-                    amount,
-                    signer_address,
-                  );
+                  gasLimit = await contract
+                    .estimateGas
+                    .forecallWithToken(
+                      sourceChain,
+                      sender,
+                      payload,
+                      symbol,
+                      amount,
+                      signer_address,
+                    );
                   break;
                 default:
                   break;
@@ -236,8 +247,10 @@ const forecall = async (
               !gasLimit ||
               parseInt(
                 FixedNumber.fromString(
-                  BigNumber.from(gasLimit)
-                    .toString()
+                  BigNumber.from(
+                    gasLimit
+                  )
+                  .toString()
                 )
                 .mulUnsafe(
                   FixedNumber.fromString(
@@ -262,8 +275,10 @@ const forecall = async (
                   logIndex,
                   gasLimit:
                     gasLimit ?
-                      BigNumber.from(gasLimit)
-                        .toString() :
+                      BigNumber.from(
+                        gasLimit
+                      )
+                      .toString() :
                       gasLimit ||
                       null,
                   gas_remain,
@@ -317,9 +332,10 @@ const forecall = async (
 
       if (confirmations < _confirmations) {
         // update receipt
-        const _receipt = await provider.getTransactionReceipt(
-          transactionHash,
-        );
+        const _receipt = await provider
+          .getTransactionReceipt(
+            transactionHash,
+          );
 
         if (_receipt) {
           receipt = _receipt;
@@ -356,9 +372,11 @@ const forecall = async (
     if (!_overrides) {
       overrides = {
         ...overrides,
-        ...await getGasOverrides(
-          data,
-          signer,
+        ...(
+          await getGasOverrides(
+            data,
+            signer,
+          )
         ),
       };
 
@@ -375,106 +393,108 @@ const forecall = async (
           { ...input },
         );
 
-        contract.forecall(
-          sourceChain,
-          sender,
-          payload,
-          signer_address,
-          overrides,
-        )
-        .then(transaction => {
-          const tx_hash = transaction.hash;
-
-          log(
-            'info',
-            service_name,
-            `${method_to_do} transaction wait`,
-            {
-              tx_hash,
-              ...input,
-            },
-          );
-
-          return transaction.wait();
-        })
-        .then(async receipt => {
-          const tx_hash = receipt?.transactionHash;
-
-          log(
-            'info',
-            service_name,
-            `${method_to_do} transaction receipt`,
-            {
-              tx_hash,
-              ...input,
-            },
-          );
-
-          await saveGMP(
-            transactionHash,
-            transactionIndex,
-            logIndex,
-            tx_hash,
+        contract
+          .forecall(
+            sourceChain,
+            sender,
+            payload,
             signer_address,
-            null,
-            method_to_do,
-          );
-        })
-        .catch(async error => {
-          const tx_hash =
-            error?.transactionHash ||
-            error?.hash;
+            overrides,
+          )
+          .then(transaction => {
+            const tx_hash = transaction.hash;
 
-          log(
-            'error',
-            service_name,
-            method_to_do,
-            {
-              tx_hash,
-              ...input,
-              error: {
-                ...error,
-                message: error?.reason,
+            log(
+              'info',
+              service_name,
+              `${method_to_do} transaction wait`,
+              {
+                tx_hash,
+                ...input,
               },
-            },
-          );
+            );
 
-          if (!error?.replacement) {
+            return transaction.wait();
+          })
+          .then(async receipt => {
+            const tx_hash = receipt?.transactionHash;
+
+            log(
+              'info',
+              service_name,
+              `${method_to_do} transaction receipt`,
+              {
+                tx_hash,
+                ...input,
+              },
+            );
+
             await saveGMP(
               transactionHash,
               transactionIndex,
               logIndex,
               tx_hash,
               signer_address,
-              error,
+              null,
               method_to_do,
             );
-          }
+          })
+          .catch(async error => {
+            const tx_hash =
+              error?.transactionHash ||
+              error?.hash;
 
-          // retry
-          if (
-            canRetry(error) &&
-            retry_time <= max_retry_time
-          ) {
-            // sleep before retry
-            await sleep((retry_time + 1) * 1000);
-
-            overrides = await getOverridesOnRetry(
-              chain,
-              error,
-              overrides,
-              signer,
-              data,
+            log(
+              'error',
+              service_name,
+              method_to_do,
+              {
+                tx_hash,
+                ...input,
+                error: {
+                  ...error,
+                  message: error?.reason,
+                },
+              },
             );
 
-            await forecall(
-              chain_config,
-              data,
-              overrides,
-              retry_time + 1,
-            );
-          }
-        });
+            if (!error?.replacement) {
+              await saveGMP(
+                transactionHash,
+                transactionIndex,
+                logIndex,
+                tx_hash,
+                signer_address,
+                error,
+                method_to_do,
+              );
+            }
+
+            // retry
+            if (
+              canRetry(error) &&
+              retry_time <= max_retry_time
+            ) {
+              // sleep before retry
+              await sleep((retry_time + 1) * 1000);
+
+              overrides =
+                await getOverridesOnRetry(
+                  chain,
+                  error,
+                  overrides,
+                  signer,
+                  data,
+                );
+
+              await forecall(
+                chain_config,
+                data,
+                overrides,
+                retry_time + 1,
+              );
+            }
+          });
         break;
       case 'forecallWithToken':
         log(
@@ -484,108 +504,112 @@ const forecall = async (
           { ...input },
         );
 
-        contract.forecallWithToken(
-          sourceChain,
-          sender,
-          payload,
-          symbol,
-          BigNumber.from(amount),
-          signer_address,
-          overrides,
-        )
-        .then(transaction => {
-          const tx_hash = transaction.hash;
-
-          log(
-            'info',
-            service_name,
-            `${method_to_do} transaction wait`,
-            {
-              tx_hash,
-              ...input,
-            },
-          );
-
-          return transaction.wait();
-        })
-        .then(async receipt => {
-          const tx_hash = receipt?.transactionHash;
-
-          log(
-            'info',
-            service_name,
-            `${method_to_do} transaction receipt`,
-            {
-              tx_hash,
-              ...input,
-            },
-          );
-
-          await saveGMP(
-            transactionHash,
-            transactionIndex,
-            logIndex,
-            tx_hash,
+        contract
+          .forecallWithToken(
+            sourceChain,
+            sender,
+            payload,
+            symbol,
+            BigNumber.from(
+              amount
+            ),
             signer_address,
-            null,
-            method_to_do,
-          );
-        })
-        .catch(async error => {
-          const tx_hash =
-            error?.transactionHash ||
-            error?.hash;
+            overrides,
+          )
+          .then(transaction => {
+            const tx_hash = transaction.hash;
 
-          log(
-            'error',
-            service_name,
-            method_to_do,
-            {
-              tx_hash,
-              ...input,
-              error: {
-                ...error,
-                message: error?.reason,
+            log(
+              'info',
+              service_name,
+              `${method_to_do} transaction wait`,
+              {
+                tx_hash,
+                ...input,
               },
-            },
-          );
+            );
 
-          if (!error?.replacement) {
+            return transaction.wait();
+          })
+          .then(async receipt => {
+            const tx_hash = receipt?.transactionHash;
+
+            log(
+              'info',
+              service_name,
+              `${method_to_do} transaction receipt`,
+              {
+                tx_hash,
+                ...input,
+              },
+            );
+
             await saveGMP(
               transactionHash,
               transactionIndex,
               logIndex,
               tx_hash,
               signer_address,
-              error,
+              null,
               method_to_do,
             );
-          }
+          })
+          .catch(async error => {
+            const tx_hash =
+              error?.transactionHash ||
+              error?.hash;
 
-          // retry
-          if (
-            canRetry(error) &&
-            retry_time <= max_retry_time
-          ) {
-            // sleep before retry
-            await sleep((retry_time + 1) * 1000);
-
-            overrides = await getOverridesOnRetry(
-              chain,
-              error,
-              overrides,
-              signer,
-              data,
+            log(
+              'error',
+              service_name,
+              method_to_do,
+              {
+                tx_hash,
+                ...input,
+                error: {
+                  ...error,
+                  message: error?.reason,
+                },
+              },
             );
 
-            await forecall(
-              chain_config,
-              data,
-              overrides,
-              retry_time + 1,
-            );
-          }
-        });
+            if (!error?.replacement) {
+              await saveGMP(
+                transactionHash,
+                transactionIndex,
+                logIndex,
+                tx_hash,
+                signer_address,
+                error,
+                method_to_do,
+              );
+            }
+
+            // retry
+            if (
+              canRetry(error) &&
+              retry_time <= max_retry_time
+            ) {
+              // sleep before retry
+              await sleep((retry_time + 1) * 1000);
+
+              overrides =
+                await getOverridesOnRetry(
+                  chain,
+                  error,
+                  overrides,
+                  signer,
+                  data,
+                );
+
+              await forecall(
+                chain_config,
+                data,
+                overrides,
+                retry_time + 1,
+              );
+            }
+          });
         break;
       default:
         break;

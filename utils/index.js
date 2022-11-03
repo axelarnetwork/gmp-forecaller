@@ -90,12 +90,13 @@ const log = (
   } catch (error) {}
 };
 
-const sleep = ms => new Promise(resolve =>
-  setTimeout(
-    resolve,
-    ms,
-  )
-);
+const sleep = ms =>
+  new Promise(resolve =>
+    setTimeout(
+      resolve,
+      ms,
+    )
+  );
 
 const equals_ignore_case = (
   a,

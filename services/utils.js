@@ -191,32 +191,37 @@ const getGasOverrides = async (
       }`;
 
     // initial contract
-    const contract = new Contract(
-      destinationContractAddress,
-      IAxelarForecallable.abi,
-      provider,
-    );
+    const contract =
+      new Contract(
+        destinationContractAddress,
+        IAxelarForecallable.abi,
+        provider,
+      );
 
     // estimate gas
     try {
       switch (method_to_do) {
         case 'forecall':
-          gasLimit = await contract.estimateGas.forecall(
-            chain,
-            sender,
-            payload,
-            address,
-          );
+          gasLimit = await contract
+            .estimateGas
+            .forecall(
+              chain,
+              sender,
+              payload,
+              address,
+            );
           break;
         case 'forecallWithToken':
-          gasLimit = await contract.estimateGas.forecallWithToken(
-            chain,
-            sender,
-            payload,
-            symbol,
-            amount,
-            address,
-          );
+          gasLimit = await contract
+            .estimateGas
+            .forecallWithToken(
+              chain,
+              sender,
+              payload,
+              symbol,
+              amount,
+              address,
+            );
           break;
         default:
           break;
@@ -238,11 +243,13 @@ const getGasOverrides = async (
       if (gasLimit) {
         gasLimit =
           FixedNumber.fromString(
-            gasLimit.toString()
+            gasLimit
+              .toString()
           )
           .mulUnsafe(
             FixedNumber.fromString(
-              gas_adjustment_rate.toString()
+              gas_adjustment_rate
+                .toString()
             )
           )
           .round(0)
@@ -256,11 +263,13 @@ const getGasOverrides = async (
       if (gasPrice) {
         gasPrice =
           FixedNumber.fromString(
-            gasPrice.toString()
+            gasPrice
+              .toString()
           )
           .mulUnsafe(
             FixedNumber.fromString(
-              gas_adjustment_rate.toString()
+              gas_adjustment_rate
+                .toString()
             )
           )
           .round(0)
@@ -344,36 +353,44 @@ const canRetry = (
 
   // handle nonce
   if (
-    nonce_patterns.findIndex(p =>
-      error_messages.findIndex(m =>
-        m.includes(p)
-      ) > -1
-    ) > -1 &&
-    contract_error_patterns.findIndex(p =>
-      error_messages.findIndex(m =>
-        m.includes(p)
-      ) > -1
-    ) < 0
+    nonce_patterns
+      .findIndex(p =>
+        error_messages
+          .findIndex(m =>
+            m.includes(p)
+          ) > -1
+      ) > -1 &&
+    contract_error_patterns
+      .findIndex(p =>
+        error_messages
+          .findIndex(m =>
+            m.includes(p)
+          ) > -1
+      ) < 0
   ) {
     return true;
   }
   // handle gas too low
   else if (
-    gas_too_low_patterns.findIndex(p =>
-      error_messages.findIndex(m =>
-        m.includes(p)
+    gas_too_low_patterns
+      .findIndex(p =>
+        error_messages
+          .findIndex(m =>
+            m.includes(p)
+          ) > -1
       ) > -1
-    ) > -1
   ) {
     return must_retry_on_low_gas;
   }
   // handle exceed gas
   else if (
-    exceed_gas_limit_patterns.findIndex(p =>
-      error_messages.findIndex(m =>
-        m.includes(p)
-      ) > -1
-    ) > -1 &&
+    exceed_gas_limit_patterns
+      .findIndex(p =>
+        error_messages
+          .findIndex(m =>
+            m.includes(p)
+          ) > -1
+      ) > -1 &&
     !ignore_codes.includes(error?.code)
   ) {
     return true;
@@ -381,11 +398,13 @@ const canRetry = (
 
   return (
     !ignore_codes.includes(error?.code) &&
-    contract_error_patterns.findIndex(p =>
-      error_messages.findIndex(m =>
-        m.includes(p)
-      ) > -1
-    ) < 0
+    contract_error_patterns
+      .findIndex(p =>
+        error_messages
+          .findIndex(m =>
+            m.includes(p)
+          ) > -1
+      ) < 0
   );
 };
 
@@ -408,51 +427,60 @@ const getOverridesOnRetry = async (
     ]
     .filter(m => m);
 
-  const gas_too_low_patterns = [
-    'intrinsic gas too low',
-    'insufficient funds',
-    'out of gas',
-  ];
-  const exceed_gas_limit_patterns = [
-    'exceeds block gas limit',
-    'gas limit reached',
-  ];
-  const nonce_patterns = [
-    'nonce has already been used',
-    'nonce too low',
-    'replacement fee too low',
-    'transaction underpriced',
-    'already known',
-  ];
+  const gas_too_low_patterns =
+    [
+      'intrinsic gas too low',
+      'insufficient funds',
+      'out of gas',
+    ];
+  const exceed_gas_limit_patterns =
+    [
+      'exceeds block gas limit',
+      'gas limit reached',
+    ];
+  const nonce_patterns =
+    [
+      'nonce has already been used',
+      'nonce too low',
+      'replacement fee too low',
+      'transaction underpriced',
+      'already known',
+    ];
 
   // handle nonce
   if (
-    nonce_patterns.findIndex(p =>
-      error_messages.findIndex(m =>
-        m.includes(p)
+    nonce_patterns
+      .findIndex(p =>
+        error_messages
+          .findIndex(m =>
+            m.includes(p)
+          ) > -1
       ) > -1
-    ) > -1
   ) {
     // try to override nonce
     if (provider) {
       try {
-        const nonce_manager = new NonceManager(
-          provider,
-        );
+        const nonce_manager =
+          new NonceManager(
+            provider,
+          );
 
         // nonce = transaction count + 1
         overrides = {
           ...overrides,
-          nonce: await nonce_manager.getTransactionCount(
-            'pending',
-          ) + 1,
+          nonce: await nonce_manager
+            .getTransactionCount(
+              'pending',
+            ) + 1,
         };
 
-        const nonce_pattern = nonce_patterns.find(p =>
-          error_messages.findIndex(m =>
-            m.includes(p)
-          ) > -1
-        );
+        const nonce_pattern = nonce_patterns
+          .find(p =>
+            error_messages
+              .findIndex(m =>
+                m.includes(p)
+              ) > -1
+          );
 
         if (nonce_pattern?.includes('underpriced')) {
           const gasPrice = await provider.getGasPrice();
@@ -466,10 +494,13 @@ const getOverridesOnRetry = async (
               ...overrides,
               gasPrice:
                 BigNumber.from(
-                  gasPrice.toString()
+                  gasPrice
+                    .toString()
                 )
                 .mul(
-                  BigNumber.from('4')
+                  BigNumber.from(
+                    '4'
+                  )
                 )
                 .toString(),
               gasLimit:
@@ -478,7 +509,9 @@ const getOverridesOnRetry = async (
                   '700000'
                 )
                 .mul(
-                  BigNumber.from('4')
+                  BigNumber.from(
+                    '4'
+                  )
                 )
                 .toString(),
             };
@@ -489,23 +522,29 @@ const getOverridesOnRetry = async (
   }
   else if (
     // handle gas too low
-    gas_too_low_patterns.findIndex(p =>
-      error_messages.findIndex(m =>
-        m.includes(p)
-      ) > -1
-    ) > -1 ||
+    gas_too_low_patterns
+      .findIndex(p =>
+        error_messages
+          .findIndex(m =>
+            m.includes(p)
+          ) > -1
+      ) > -1 ||
     // handle exceed gas
-    exceed_gas_limit_patterns.findIndex(p =>
-      error_messages.findIndex(m =>
-        m.includes(p)
+    exceed_gas_limit_patterns
+      .findIndex(p =>
+        error_messages
+          .findIndex(m =>
+            m.includes(p)
+          ) > -1
       ) > -1
-    ) > -1
   ) {
-    const is_exceed = exceed_gas_limit_patterns.findIndex(p =>
-      error_messages.findIndex(m =>
-        m.includes(p)
-      ) > -1
-    ) > -1;
+    const is_exceed = exceed_gas_limit_patterns
+      .findIndex(p =>
+        error_messages
+          .findIndex(m =>
+            m.includes(p)
+          ) > -1
+      ) > -1;
 
     if (overrides) {
       delete overrides.gasLimit;
@@ -551,11 +590,12 @@ const getOverridesOnRetry = async (
           }`;
 
         // initial contract
-        const contract = new Contract(
-          destinationContractAddress,
-          IAxelarForecallable.abi,
-          provider,
-        );
+        const contract =
+          new Contract(
+            destinationContractAddress,
+            IAxelarForecallable.abi,
+            provider,
+          );
 
         let gasLimit,
           gasPrice;
@@ -564,22 +604,26 @@ const getOverridesOnRetry = async (
         try {
           switch (method_to_do) {
             case 'forecall':
-              gasLimit = await contract.estimateGas.forecall(
-                chain,
-                sender,
-                payload,
-                address,
-              );
+              gasLimit = await contract
+                .estimateGas
+                .forecall(
+                  chain,
+                  sender,
+                  payload,
+                  address,
+                );
               break;
             case 'forecallWithToken':
-              gasLimit = await contract.estimateGas.forecallWithToken(
-                chain,
-                sender,
-                payload,
-                symbol,
-                amount,
-                address,
-              );
+              gasLimit = await contract
+                .estimateGas
+                .forecallWithToken(
+                  chain,
+                  sender,
+                  payload,
+                  symbol,
+                  amount,
+                  address,
+                );
               break;
             default:
               break;
@@ -604,11 +648,13 @@ const getOverridesOnRetry = async (
           if (gas_adjustment_rate > 1) {
             gasLimit =
               FixedNumber.fromString(
-                gasLimit.toString()
+                gasLimit
+                  .toString()
               )
               .mulUnsafe(
                 FixedNumber.fromString(
-                  gas_adjustment_rate.toString()
+                  gas_adjustment_rate
+                    .toString()
                 )
               )
               .round(0)
@@ -621,11 +667,13 @@ const getOverridesOnRetry = async (
             if (gasPrice) {
               gasPrice =
                 FixedNumber.fromString(
-                  gasPrice.toString()
+                  gasPrice
+                    .toString()
                 )
                 .mulUnsafe(
                   FixedNumber.fromString(
-                    gas_adjustment_rate.toString()
+                    gas_adjustment_rate
+                      .toString()
                   )
                 )
                 .round(0)
@@ -640,11 +688,13 @@ const getOverridesOnRetry = async (
           if (
             maxGasLimit &&
             BigNumber.from(
-              maxGasLimit.toString()
+              maxGasLimit
+                .toString()
             )
             .gt(
               BigNumber.from(
-                gasLimit.toString()
+                gasLimit
+                  .toString()
               )
             )
           ) {

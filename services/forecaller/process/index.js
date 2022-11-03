@@ -18,9 +18,11 @@ const {
   delay_ms_per_batch,
 } = { ...config?.[environment]?.forecall };
 
-const concurrent = concurrent_transaction ||
+const concurrent =
+  concurrent_transaction ||
   20;
-const delay = delay_ms_per_batch ||
+const delay =
+  delay_ms_per_batch ||
   5000;
 
 module.exports.runForecall = async (
@@ -34,53 +36,55 @@ module.exports.runForecall = async (
       context.getRemainingTimeInMillis() > delay * 12
     ) {
       // load tasks
-      const response = await searchGMP(
-        {
-          status: 'forecallable',
-          contracts: chains_config
-            .flatMap(c => {
-              const {
-                id,
-                contract_address,
-                filter,
-              } = { ...c };
-              let {
-                source_chains,
-              } = { ...filter };
+      const response =
+        await searchGMP(
+          {
+            status: 'forecallable',
+            contracts: chains_config
+              .flatMap(c => {
+                const {
+                  id,
+                  contract_address,
+                  filter,
+                } = { ...c };
+                let {
+                  source_chains,
+                } = { ...filter };
 
-              source_chains = _.uniq(
-                (
-                  Array.isArray(source_chains) ?
-                    source_chains :
-                    (typeof source_chains === 'string' ?
-                      source_chains :
-                      ''
+                source_chains =
+                  _.uniq(
+                    (
+                      Array.isArray(source_chains) ?
+                        source_chains :
+                        (typeof source_chains === 'string' ?
+                          source_chains :
+                          ''
+                        )
+                        .split(',')
                     )
-                    .split(',')
-                )
-                .filter(c => c)
-                .map(c => c.toLowerCase())
-              );
+                    .filter(c => c)
+                    .map(c => c.toLowerCase())
+                  );
 
-              return source_chains.length > 0 ?
-                source_chains
-                  .map(c => {
-                    return {
-                      source_chain: c,
+                return source_chains.length > 0 ?
+                  source_chains
+                    .map(c => {
+                      return {
+                        source_chain: c,
+                        destination_chain: id,
+                        contract_address,
+                      };
+                    }) :
+                  [
+                    {
                       destination_chain: id,
                       contract_address,
-                    };
-                  }) :
-                [
-                  {
-                    destination_chain: id,
-                    contract_address,
-                  },
-                ];
-            }),
-          size: concurrent,
-        },
-      );
+                    },
+                  ];
+              }),
+            size: concurrent,
+          },
+        );
 
       const {
         data,
@@ -95,9 +99,13 @@ module.exports.runForecall = async (
             destinationChain,
           } = { ...call?.returnValues };
 
-          const chain_config = chains_config.find(c =>
-            equals_ignore_case(c?.id, destinationChain)
-          );
+          const chain_config = chains_config
+            .find(c =>
+              equals_ignore_case(
+                c?.id,
+                destinationChain,
+              )
+            );
 
           // add delay before next message
           await sleep(0.5 * 1000);
