@@ -468,10 +468,11 @@ const getOverridesOnRetry = async (
         // nonce = transaction count + 1
         overrides = {
           ...overrides,
-          nonce: await nonce_manager
-            .getTransactionCount(
-              'pending',
-            ) + 1,
+          nonce:
+            await nonce_manager
+              .getTransactionCount(
+                'pending',
+              ) + 1,
         };
 
         const nonce_pattern = nonce_patterns

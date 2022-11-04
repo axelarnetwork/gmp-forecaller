@@ -332,10 +332,11 @@ const forecall = async (
 
       if (confirmations < _confirmations) {
         // update receipt
-        const _receipt = await provider
-          .getTransactionReceipt(
-            transactionHash,
-          );
+        const _receipt =
+          await provider
+            .getTransactionReceipt(
+              transactionHash,
+            );
 
         if (_receipt) {
           receipt = _receipt;
