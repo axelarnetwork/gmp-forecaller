@@ -243,8 +243,10 @@ const getGasOverrides = async (
       if (gasLimit) {
         gasLimit =
           FixedNumber.fromString(
-            gasLimit
-              .toString()
+            BigNumber.from(
+              gasLimit
+            )
+            .toString()
           )
           .mulUnsafe(
             FixedNumber.fromString(
@@ -649,8 +651,10 @@ const getOverridesOnRetry = async (
           if (gas_adjustment_rate > 1) {
             gasLimit =
               FixedNumber.fromString(
-                gasLimit
-                  .toString()
+                BigNumber.from(
+                  gasLimit
+                )
+                .toString()
               )
               .mulUnsafe(
                 FixedNumber.fromString(
