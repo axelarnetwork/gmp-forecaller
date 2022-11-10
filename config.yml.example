@@ -315,6 +315,7 @@ testnet:
       contract_address: ""
       endpoints:
         rpc:
+          - "https://rpc.ankr.com/bsc_testnet_chapel"
           - "https://data-seed-prebsc-1-s1.binance.org:8545"
           - "https://data-seed-prebsc-2-s1.binance.org:8545"
           - "https://data-seed-prebsc-1-s2.binance.org:8545"
