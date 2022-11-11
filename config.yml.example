@@ -276,7 +276,7 @@ testnet:
     delay_ms_per_batch: 5000
     gas_remain_x_threshold: 2.0
   min_confirmations:
-    ethereum: 2
+    ethereum-2: 2
     binance: 2
     polygon: 5
     avalanche: 1
