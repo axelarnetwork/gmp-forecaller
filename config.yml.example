@@ -10,18 +10,18 @@ mainnet:
     delay_ms_per_batch: 5000
     gas_remain_x_threshold: 2.0
   min_confirmations:
-    ethereum: 1
-    binance: 1
-    polygon: 1
+    ethereum: 2
+    binance: 2
+    polygon: 5
     avalanche: 1
     fantom: 1
-    moonbeam: 1
-    aurora: 1
-    arbitrum: 1
-    optimism: 1
+    moonbeam: 2
+    aurora: 2
+    arbitrum: 2
+    optimism: 2
     celo: 1
     kava: 1
-    default: 1
+    default: 2
   chains:
     ethereum:
       contract_address: ""
@@ -276,18 +276,18 @@ testnet:
     delay_ms_per_batch: 5000
     gas_remain_x_threshold: 2.0
   min_confirmations:
-    ethereum-2: 1
-    binance: 1
-    polygon: 1
+    ethereum: 2
+    binance: 2
+    polygon: 5
     avalanche: 1
     fantom: 1
-    moonbeam: 1
-    aurora: 1
-    arbitrum: 1
-    optimism: 1
+    moonbeam: 2
+    aurora: 2
+    arbitrum: 2
+    optimism: 2
     celo: 1
     kava: 1
-    default: 1
+    default: 2
   chains:
     ethereum-2:
       contract_address: ""

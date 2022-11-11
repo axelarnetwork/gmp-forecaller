@@ -328,7 +328,7 @@ const forecall = async (
       const _confirmations =
         min_confirmations?.[sourceChain] ||
         min_confirmations?.default ||
-        1;
+        2;
 
       if (confirmations < _confirmations) {
         // update receipt
