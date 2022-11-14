@@ -202,26 +202,28 @@ const getGasOverrides = async (
     try {
       switch (method_to_do) {
         case 'forecall':
-          gasLimit = await contract
-            .estimateGas
-            .forecall(
-              chain,
-              sender,
-              payload,
-              address,
-            );
+          gasLimit =
+            await contract
+              .estimateGas
+              .forecall(
+                chain,
+                sender,
+                payload,
+                address,
+              );
           break;
         case 'forecallWithToken':
-          gasLimit = await contract
-            .estimateGas
-            .forecallWithToken(
-              chain,
-              sender,
-              payload,
-              symbol,
-              amount,
-              address,
-            );
+          gasLimit =
+            await contract
+              .estimateGas
+              .forecallWithToken(
+                chain,
+                sender,
+                payload,
+                symbol,
+                amount,
+                address,
+              );
           break;
         default:
           break;
@@ -607,26 +609,28 @@ const getOverridesOnRetry = async (
         try {
           switch (method_to_do) {
             case 'forecall':
-              gasLimit = await contract
-                .estimateGas
-                .forecall(
-                  chain,
-                  sender,
-                  payload,
-                  address,
-                );
+              gasLimit =
+                await contract
+                  .estimateGas
+                  .forecall(
+                    chain,
+                    sender,
+                    payload,
+                    address,
+                  );
               break;
             case 'forecallWithToken':
-              gasLimit = await contract
-                .estimateGas
-                .forecallWithToken(
-                  chain,
-                  sender,
-                  payload,
-                  symbol,
-                  amount,
-                  address,
-                );
+              gasLimit =
+                await contract
+                  .estimateGas
+                  .forecallWithToken(
+                    chain,
+                    sender,
+                    payload,
+                    symbol,
+                    amount,
+                    address,
+                  );
               break;
             default:
               break;

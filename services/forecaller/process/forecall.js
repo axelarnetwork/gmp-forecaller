@@ -201,26 +201,28 @@ const forecall = async (
             try {
               switch (method_to_do) {
                 case 'forecall':
-                  gasLimit = await contract
-                    .estimateGas
-                    .forecall(
-                      sourceChain,
-                      sender,
-                      payload,
-                      signer_address,
-                    );
+                  gasLimit =
+                    await contract
+                      .estimateGas
+                      .forecall(
+                        sourceChain,
+                        sender,
+                        payload,
+                        signer_address,
+                      );
                   break;
                 case 'forecallWithToken':
-                  gasLimit = await contract
-                    .estimateGas
-                    .forecallWithToken(
-                      sourceChain,
-                      sender,
-                      payload,
-                      symbol,
-                      amount,
-                      signer_address,
-                    );
+                  gasLimit =
+                    await contract
+                      .estimateGas
+                      .forecallWithToken(
+                        sourceChain,
+                        sender,
+                        payload,
+                        symbol,
+                        amount,
+                        signer_address,
+                      );
                   break;
                 default:
                   break;

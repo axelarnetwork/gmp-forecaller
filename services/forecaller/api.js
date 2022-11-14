@@ -76,10 +76,19 @@ const saveGMP = async (
         break;
     }
 
-    const response = await api.post(
-      '/',
-      params,
-    ).catch(error => { return { data: { error } }; });
+    const response =
+      await api
+        .post(
+          '/',
+          params,
+        )
+        .catch(error => {
+          return {
+            data: {
+              error,
+            },
+          };
+        });
 
     output = response?.data;
 
@@ -135,10 +144,19 @@ const searchGMP = async (
       { ...params },
     );
 
-    const response = await api.post(
-      '/',
-      params,
-    ).catch(error => { return { data: { error } }; });
+    const response =
+      await api
+        .post(
+          '/',
+          params,
+        )
+        .catch(error => {
+          return {
+            data: {
+              error,
+            },
+          };
+        });
 
     const {
       data,
@@ -158,10 +176,11 @@ const searchGMP = async (
       {
         output: {
           ...output,
-          data: output?.data?.length > 0 ?
-            output.data
-              .map(d => d?.id) :
-            `No remaining ${status} calls`,
+          data:
+            output?.data?.length > 0 ?
+              output.data
+                .map(d => d?.id) :
+              `No remaining ${status} calls`,
         },
       },
     );
