@@ -479,7 +479,10 @@ const forecall = async (
               retry_time <= max_retry_time
             ) {
               // sleep before retry
-              await sleep((retry_time + 1) * 1000);
+              await sleep(
+                (retry_time + 1) *
+                1000
+              );
 
               overrides =
                 await getOverridesOnRetry(
@@ -594,7 +597,10 @@ const forecall = async (
               retry_time <= max_retry_time
             ) {
               // sleep before retry
-              await sleep((retry_time + 1) * 1000);
+              await sleep(
+                (retry_time + 1) *
+                1000
+              );
 
               overrides =
                 await getOverridesOnRetry(

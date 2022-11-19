@@ -238,7 +238,8 @@ const getGasOverrides = async (
     try {
       gasPrice =
         gasPrice ||
-        await provider.getGasPrice();
+        await provider
+          .getGasPrice();
     } catch (error) {}
 
     if (gas_adjustment_rate > 1) {
@@ -264,7 +265,10 @@ const getGasOverrides = async (
           );
       }
 
-      if (gasPrice) {
+      if (
+        gasPrice &&
+        gas_adjustment_rate <= 2
+      ) {
         gasPrice =
           FixedNumber.fromString(
             gasPrice
@@ -488,7 +492,9 @@ const getOverridesOnRetry = async (
           );
 
         if (nonce_pattern?.includes('underpriced')) {
-          const gasPrice = await provider.getGasPrice();
+          const gasPrice =
+            await provider
+              .getGasPrice();
 
           if (gasPrice) {
             const {
@@ -578,9 +584,10 @@ const getOverridesOnRetry = async (
         gas_adjustment_rate,
       } = { ...chains?.[destinationChain?.toLowerCase()] };
 
-      const maxGasLimit = is_exceed ?
-        overrides?.gasLimit :
-        default_gas_limit;
+      const maxGasLimit =
+        is_exceed ?
+          overrides?.gasLimit :
+          default_gas_limit;
 
       if (payloadHash) {
         const address =
@@ -645,7 +652,8 @@ const getOverridesOnRetry = async (
         try {
           gasPrice =
             gasPrice ||
-            await provider.getGasPrice();
+            await provider
+              .getGasPrice();
         } catch (error) {}
 
         const _gasLimit = gasLimit;
@@ -673,7 +681,10 @@ const getOverridesOnRetry = async (
                 '',
               );
 
-            if (gasPrice) {
+            if (
+              gasPrice &&
+              gas_adjustment_rate <= 2
+            ) {
               gasPrice =
                 FixedNumber.fromString(
                   gasPrice
