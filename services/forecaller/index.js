@@ -132,22 +132,23 @@ module.exports = context => {
   }
   else {
     // setup all chains' configuration
-    const chains_config = Object.entries({ ...chains })
-      .filter(([k, v]) => v?.contract_address)
-      .map(([k, v]) => {
-        const provider = getProvider(k);
+    const chains_config =
+      Object.entries({ ...chains })
+        .filter(([k, v]) => v?.contract_address)
+        .map(([k, v]) => {
+          const provider = getProvider(k);
 
-        return {
-          ...v,
-          id: k,
-          provider,
-          signer:
-            getSigner(
-              v,
-              provider,
-            ),
-        };
-      });
+          return {
+            ...v,
+            id: k,
+            provider,
+            signer:
+              getSigner(
+                v,
+                provider,
+              ),
+          };
+        });
 
     // execute on all chains
     runForecall(

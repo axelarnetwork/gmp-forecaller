@@ -1,16 +1,26 @@
 {
   "_format": "hh-sol-artifact-1",
-  "contractName": "IAxelarForecallable",
-  "sourceName": "contracts/interfaces/IAxelarForecallable.sol",
+  "contractName": "IAxelarForecallService",
+  "sourceName": "contracts/interfaces/IAxelarForecallService.sol",
   "abi": [
     {
       "inputs": [],
-      "name": "AlreadyForecalled",
+      "name": "AlreadyExecuted",
       "type": "error"
     },
     {
       "inputs": [],
-      "name": "NotApprovedByGateway",
+      "name": "InvalidAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "InvalidContractAddress",
+      "type": "error"
+    },
+    {
+      "inputs": [],
+      "name": "NotOperator",
       "type": "error"
     },
     {
@@ -21,156 +31,89 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
+          "internalType": "bytes32",
+          "name": "commandId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "sourceChain",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "sourceAddress",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "contractAddress",
+          "type": "address"
         },
         {
           "internalType": "bytes",
-          "name": "",
+          "name": "payload",
           "type": "bytes"
         }
       ],
-      "name": "amountPostFee",
+      "name": "call",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "commandId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "string",
+          "name": "sourceChain",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "sourceAddress",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "contractAddress",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes",
+          "name": "payload",
+          "type": "bytes"
+        },
+        {
+          "internalType": "string",
+          "name": "tokenSymbolA",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "callWithToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "forecallOperator",
       "outputs": [
         {
-          "internalType": "uint256",
+          "internalType": "address",
           "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "commandId",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "string",
-          "name": "sourceChain",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "sourceAddress",
-          "type": "string"
-        },
-        {
-          "internalType": "bytes",
-          "name": "payload",
-          "type": "bytes"
-        }
-      ],
-      "name": "execute",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "bytes32",
-          "name": "commandId",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "string",
-          "name": "sourceChain",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "sourceAddress",
-          "type": "string"
-        },
-        {
-          "internalType": "bytes",
-          "name": "payload",
-          "type": "bytes"
-        },
-        {
-          "internalType": "string",
-          "name": "tokenSymbol",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "executeWithToken",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "sourceChain",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "sourceAddress",
-          "type": "string"
-        },
-        {
-          "internalType": "bytes",
-          "name": "payload",
-          "type": "bytes"
-        },
-        {
-          "internalType": "address",
-          "name": "forecaller",
           "type": "address"
         }
       ],
-      "name": "forecall",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "string",
-          "name": "sourceChain",
-          "type": "string"
-        },
-        {
-          "internalType": "string",
-          "name": "sourceAddress",
-          "type": "string"
-        },
-        {
-          "internalType": "bytes",
-          "name": "payload",
-          "type": "bytes"
-        },
-        {
-          "internalType": "string",
-          "name": "tokenSymbol",
-          "type": "string"
-        },
-        {
-          "internalType": "uint256",
-          "name": "amount",
-          "type": "uint256"
-        },
-        {
-          "internalType": "address",
-          "name": "forecaller",
-          "type": "address"
-        }
-      ],
-      "name": "forecallWithToken",
-      "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
     },
@@ -184,7 +127,30 @@
           "type": "address"
         }
       ],
-      "stateMutability": "view",
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address payable",
+          "name": "receiver",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ],

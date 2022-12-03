@@ -12,21 +12,20 @@ const {
   getGasOverrides,
   canRetry,
   getOverridesOnRetry,
+  generateCommandId,
 } = require('../../utils');
 const {
   log,
   sleep,
   equals_ignore_case,
 } = require('../../../utils');
-const IAxelarForecallable = require('../../../data/contracts/interfaces/IAxelarForecallable.json');
+const IAxelarForecallService = require('../../../data/contracts/interfaces/IAxelarForecallService.json');
 
-const service_name = 'forecall';
 const environment = process.env.ENVIRONMENT;
 
+const service_name = 'forecall';
+
 const max_retry_time = 2;
-const {
-  gas_remain_x_threshold,
-} = { ...config?.[environment]?.forecall };
 const {
   min_confirmations,
 } = { ...config?.[environment] };
@@ -40,6 +39,7 @@ const forecall = async (
   // chain configuration
   const {
     id,
+    chain_id,
     provider,
     signer,
     filter,
@@ -51,7 +51,6 @@ const forecall = async (
   const {
     call,
     forecalled_error,
-    forecall_gas_price_rate,
     gas,
   } = { ...data };
   let {
@@ -62,12 +61,15 @@ const forecall = async (
     transactionHash,
     transactionIndex,
     logIndex,
+    _logIndex,
     returnValues,
   } = { ...call };
   let {
     receipt,
   } = { ...call };
+
   const sourceChain = call?.chain;
+
   const {
     sender,
     destinationChain,
@@ -88,15 +90,11 @@ const forecall = async (
     destinationContractAddress &&
     canRetry(forecalled_error)
   ) {
-    const signer_address =
-      signer.address ||
-      await signer.getAddress();
-
     // initial contract
     const contract =
       new Contract(
         destinationContractAddress,
-        IAxelarForecallable.abi,
+        IAxelarForecallService.abi,
         signer,
       );
 
@@ -178,132 +176,9 @@ const forecall = async (
       // check gas amount remaining
       if (
         !not_to_forecall &&
-        typeof gas_remain_amount === 'number' &&
-        forecall_gas_price_rate?.source_token?.gas_price
+        typeof gas_remain_amount === 'number'
       ) {
         not_to_forecall = gas_remain_amount <= 0;
-
-        if (!not_to_forecall) {
-          try {
-            const {
-              source_token,
-            } = { ...forecall_gas_price_rate };
-
-            const gas_remain =
-              parseInt(
-                gas_remain_amount /
-                source_token.gas_price
-              )
-              .toString();
-
-            let gasLimit;
-
-            try {
-              switch (method_to_do) {
-                case 'forecall':
-                  gasLimit =
-                    await contract
-                      .estimateGas
-                      .forecall(
-                        sourceChain,
-                        sender,
-                        payload,
-                        signer_address,
-                      );
-                  break;
-                case 'forecallWithToken':
-                  gasLimit =
-                    await contract
-                      .estimateGas
-                      .forecallWithToken(
-                        sourceChain,
-                        sender,
-                        payload,
-                        symbol,
-                        amount,
-                        signer_address,
-                      );
-                  break;
-                default:
-                  break;
-              }
-            } catch (error) {
-              log(
-                'error',
-                service_name,
-                'cannot estimateGas',
-                {
-                  method_to_do,
-                  sourceChain,
-                  sender,
-                  payload,
-                  symbol,
-                  amount,
-                  signer_address,
-                  error: error?.message,
-                },
-              );
-            }
-
-            if (
-              !gasLimit ||
-              parseInt(
-                FixedNumber.fromString(
-                  BigNumber.from(
-                    gasLimit
-                  )
-                  .toString()
-                )
-                .mulUnsafe(
-                  FixedNumber.fromString(
-                    gas_remain_x_threshold
-                      .toString()
-                  )
-                )
-              ) >
-              parseInt(
-                gas_remain
-              )
-            ) {
-              not_to_forecall = true;
-
-              log(
-                'debug',
-                service_name,
-                'not forecall',
-                {
-                  transactionHash,
-                  transactionIndex,
-                  logIndex,
-                  gasLimit:
-                    gasLimit ?
-                      BigNumber.from(
-                        gasLimit
-                      )
-                      .toString() :
-                      gasLimit ||
-                      null,
-                  gas_remain,
-                  gas_remain_x_threshold,
-                },
-              );
-            }
-          } catch (error) {
-            not_to_forecall = true;
-
-            log(
-              'debug',
-              service_name,
-              'not forecall',
-              {
-                transactionHash,
-                transactionIndex,
-                logIndex,
-                error: error?.message,
-              },
-            );
-          }
-        }
       }
       else {
         not_to_forecall = true;
@@ -351,6 +226,14 @@ const forecall = async (
       }
     }
 
+    // generate commandId
+    const commandId =
+      generateCommandId(
+        transactionHash,
+        _logIndex,
+        chain_id,
+      );
+
     // initial overrides
     let overrides = {
       ..._overrides,
@@ -360,13 +243,13 @@ const forecall = async (
     const input = {
       chain,
       params: {
+        commandId,
         sourceChain,
         sourceAddress: sender,
         destinationContractAddress,
         payload,
         symbol,
         amount,
-        forecaller: signer_address,
       },
       overrides,
     };
@@ -377,7 +260,10 @@ const forecall = async (
         ...overrides,
         ...(
           await getGasOverrides(
-            data,
+            {
+              ...data,
+              commandId,
+            },
             signer,
           )
         ),
@@ -397,11 +283,12 @@ const forecall = async (
         );
 
         contract
-          .forecall(
+          .call(
+            commandId,
             sourceChain,
             sender,
+            destinationContractAddress,
             payload,
-            signer_address,
             overrides,
           )
           .then(transaction => {
@@ -511,15 +398,16 @@ const forecall = async (
         );
 
         contract
-          .forecallWithToken(
+          .callWithToken(
+            commandId,
             sourceChain,
             sender,
+            destinationContractAddress,
             payload,
             symbol,
             BigNumber.from(
               amount
             ),
-            signer_address,
             overrides,
           )
           .then(transaction => {

@@ -40,48 +40,51 @@ module.exports.runForecall = async (
         await searchGMP(
           {
             status: 'forecallable',
-            contracts: chains_config
-              .flatMap(c => {
-                const {
-                  id,
-                  contract_address,
-                  filter,
-                } = { ...c };
-                let {
-                  source_chains,
-                } = { ...filter };
+            contracts:
+              chains_config
+                .flatMap(c => {
+                  const {
+                    id,
+                    contract_address,
+                    filter,
+                  } = { ...c };
+                  let {
+                    source_chains,
+                  } = { ...filter };
 
-                source_chains =
-                  _.uniq(
-                    (
-                      Array.isArray(source_chains) ?
-                        source_chains :
-                        (typeof source_chains === 'string' ?
+                  source_chains =
+                    _.uniq(
+                      (
+                        Array.isArray(source_chains) ?
                           source_chains :
-                          ''
-                        )
-                        .split(',')
-                    )
-                    .filter(c => c)
-                    .map(c => c.toLowerCase())
-                  );
+                          (typeof source_chains === 'string' ?
+                            source_chains :
+                            ''
+                          )
+                          .split(',')
+                      )
+                      .filter(c => c)
+                      .map(c => c.toLowerCase())
+                    );
 
-                return source_chains.length > 0 ?
-                  source_chains
-                    .map(c => {
-                      return {
-                        source_chain: c,
-                        destination_chain: id,
-                        contract_address,
-                      };
-                    }) :
-                  [
-                    {
-                      destination_chain: id,
-                      contract_address,
-                    },
-                  ];
-              }),
+                  return (
+                    source_chains.length > 0 ?
+                      source_chains
+                        .map(c => {
+                          return {
+                            source_chain: c,
+                            destination_chain: id,
+                            contract_address,
+                          };
+                        }) :
+                      [
+                        {
+                          destination_chain: id,
+                          contract_address,
+                        },
+                      ]
+                  );
+                }),
             size: concurrent,
           },
         );

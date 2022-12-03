@@ -26,50 +26,53 @@ const log = (
     level = level.toLowerCase();
 
     // generate log message
-    const log_message = process.env.DEPLOY_ON === 'lambda' ?
-      `${level === 'error' ?
-        'ERR' :
-        level === 'warn' ?
-          'WARN' :
-          level === 'debug' ?
-            'DBG' :
-            'INF'
-      } [${from?.toUpperCase()}] ${message}\n${typeof data === 'string' ?
-        data :
-        typeof data === 'object' ?
-          JSON.stringify(
-            data,
-            null,
-            2,
-          ) :
-          data
-      }` :
-      `${GRAY}${
-        moment()
-          .format('YYYY-MM-DDTHH:mm:ssZ')
-      }${NO_COLOR} ${
-        level === 'error' ?
-          `${RED}ERR` :
-          level === 'warn' ?
-            `${YELLOW}WARN` :
-            level === 'debug' ?
-              `${GREEN}DBG` :
-              `${GREEN}INF`
-      }${NO_COLOR} ${LIGHT_BLUE}[${from?.toUpperCase()}]${NO_COLOR} ${LIGHT_YELLOW}${message}${NO_COLOR} ${
-        typeof data === 'string' ?
-          data :
-          typeof data === 'object' ?
-            Object.entries({ ...data })
-              .map(([k, v]) =>
-                `${CYAN}${k}=${NO_COLOR}${
-                  typeof v === 'object' ?
-                    JSON.stringify(v) :
-                    v
-                }`
-              )
-              .join(' ') :
+    const log_message =
+      process.env.DEPLOY_ON === 'lambda' ?
+        `${
+          level === 'error' ?
+            'ERR' :
+            level === 'warn' ?
+              'WARN' :
+              level === 'debug' ?
+                'DBG' :
+                'INF'
+        } [${from?.toUpperCase()}] ${message}\n${
+          typeof data === 'string' ?
+            data :
+            typeof data === 'object' ?
+              JSON.stringify(
+                data,
+                null,
+                2,
+              ) :
               data
-      }`;
+          }` :
+        `${GRAY}${
+          moment()
+            .format('YYYY-MM-DDTHH:mm:ssZ')
+        }${NO_COLOR} ${
+          level === 'error' ?
+            `${RED}ERR` :
+            level === 'warn' ?
+              `${YELLOW}WARN` :
+              level === 'debug' ?
+                `${GREEN}DBG` :
+                `${GREEN}INF`
+        }${NO_COLOR} ${LIGHT_BLUE}[${from?.toUpperCase()}]${NO_COLOR} ${LIGHT_YELLOW}${message}${NO_COLOR} ${
+          typeof data === 'string' ?
+            data :
+            typeof data === 'object' ?
+              Object.entries({ ...data })
+                .map(([k, v]) =>
+                  `${CYAN}${k}=${NO_COLOR}${
+                    typeof v === 'object' ?
+                      JSON.stringify(v) :
+                      v
+                  }`
+                )
+                .join(' ') :
+                data
+        }`;
 
     switch (level) {
       case 'error':
@@ -102,7 +105,10 @@ const equals_ignore_case = (
   a,
   b,
 ) =>
-  (!a && !b) ||
+  (
+    !a &&
+    !b
+  ) ||
   a?.toLowerCase() === b?.toLowerCase();
 
 module.exports = {
