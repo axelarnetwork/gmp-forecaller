@@ -17,10 +17,11 @@ const config = require('config-yml');
 const {
   log,
 } = require('../utils');
-const IAxelarForecallable = require('../data/contracts/interfaces/IAxelarForecallable.json');
+const IAxelarForecallService = require('../data/contracts/interfaces/IAxelarForecallService.json');
+
+const environment = process.env.ENVIRONMENT;
 
 const service_name = 'utils';
-const environment = process.env.ENVIRONMENT;
 
 const {
   chains,
@@ -54,19 +55,23 @@ const getSigner = (
       apiSecret: api_secret,
     };
 
-    return new DefenderRelaySigner(
-      credentials,
-      new DefenderRelayProvider(credentials),
-      {
-        speed,
-      },
+    return (
+      new DefenderRelaySigner(
+        credentials,
+        new DefenderRelayProvider(credentials),
+        {
+          speed,
+        },
+      )
     );
   }
   // wallet private key
   else if (private_key) {
-    return new Wallet(
-      private_key,
-      provider,
+    return (
+      new Wallet(
+        private_key,
+        provider,
+      )
     );
   }
 
@@ -84,28 +89,34 @@ const getProvider = (
 
   /* start normalize rpcs */
   let rpcs = rpc;
+
   if (!Array.isArray(rpcs)) {
     rpcs = [rpcs];
   }
-  rpcs = rpcs
-    .filter(url => url);
+
+  rpcs =
+    rpcs
+      .filter(url => url);
   /* end normalize rpcs */
 
-  const provider = rpcs.length > 0 ?
-    rpcs.length === 1 ?
-      new JsonRpcProvider(rpcs[0]) :
-      new FallbackProvider(
-        rpcs
-          .map((url, i) => {
-            return {
-              provider: new JsonRpcProvider(url),
-              priority: i + 1,
-              stallTimeout: 1000,
-            };
-          }),
-        rpcs.length / 3,
-      ) :
-    null;
+  const provider =
+    rpcs.length > 0 ?
+      rpcs.length === 1 ?
+        new JsonRpcProvider(
+          _.head(rpcs)
+        ) :
+        new FallbackProvider(
+          rpcs
+            .map((url, i) => {
+              return {
+                provider: new JsonRpcProvider(url),
+                priority: i + 1,
+                stallTimeout: 1000,
+              };
+            }),
+          rpcs.length / 3,
+        ) :
+      null;
 
   return provider;
 };
@@ -118,6 +129,7 @@ const getGasOverrides = async (
   const {
     call,
     forecall_gas_price_rate,
+    commandId,
   } = { ...data };
   const {
     chain,
@@ -179,10 +191,6 @@ const getGasOverrides = async (
   } = { ...output };
 
   if (payloadHash) {
-    const address =
-      provider?.address ||
-      await provider?.getAddress();
-
     const method_to_do =
       `forecall${
         symbol ?
@@ -194,7 +202,7 @@ const getGasOverrides = async (
     const contract =
       new Contract(
         destinationContractAddress,
-        IAxelarForecallable.abi,
+        IAxelarForecallService.abi,
         provider,
       );
 
@@ -205,24 +213,26 @@ const getGasOverrides = async (
           gasLimit =
             await contract
               .estimateGas
-              .forecall(
+              .call(
+                commandId,
                 chain,
                 sender,
+                destinationContractAddress,
                 payload,
-                address,
               );
           break;
         case 'forecallWithToken':
           gasLimit =
             await contract
               .estimateGas
-              .forecallWithToken(
+              .callWithToken(
+                commandId,
                 chain,
                 sender,
+                destinationContractAddress,
                 payload,
                 symbol,
                 amount,
-                address,
               );
           break;
         default:
@@ -332,17 +342,20 @@ const canRetry = (
       // 'TRANSACTION_REPLACED',
       'UNPREDICTABLE_GAS_LIMIT',
     ];
+
   const gas_too_low_patterns =
     [
       'intrinsic gas too low',
       'insufficient funds',
       'out of gas',
     ];
+
   const exceed_gas_limit_patterns =
     [
       'exceeds block gas limit',
       'gas limit reached',
     ];
+
   const nonce_patterns =
     [
       'nonce has already been used',
@@ -351,6 +364,7 @@ const canRetry = (
       'transaction underpriced',
       'already known',
     ];
+
   const contract_error_patterns =
     [
       'execution reverted',
@@ -441,11 +455,13 @@ const getOverridesOnRetry = async (
       'insufficient funds',
       'out of gas',
     ];
+
   const exceed_gas_limit_patterns =
     [
       'exceeds block gas limit',
       'gas limit reached',
     ];
+
   const nonce_patterns =
     [
       'nonce has already been used',
@@ -562,6 +578,7 @@ const getOverridesOnRetry = async (
       delete overrides.gasPrice;
     }
 
+    // try to override gas limit
     try {
       const {
         call,
@@ -590,10 +607,6 @@ const getOverridesOnRetry = async (
           default_gas_limit;
 
       if (payloadHash) {
-        const address =
-          provider?.address ||
-          await provider?.getAddress();
-
         const method_to_do =
           `forecall${
             symbol ?
@@ -605,38 +618,39 @@ const getOverridesOnRetry = async (
         const contract =
           new Contract(
             destinationContractAddress,
-            IAxelarForecallable.abi,
+            IAxelarForecallService.abi,
             provider,
           );
 
         let gasLimit,
           gasPrice;
 
-        // estimate gas
         try {
           switch (method_to_do) {
             case 'forecall':
               gasLimit =
                 await contract
                   .estimateGas
-                  .forecall(
+                  .call(
+                    commandId,
                     chain,
                     sender,
+                    destinationContractAddress,
                     payload,
-                    address,
                   );
               break;
             case 'forecallWithToken':
               gasLimit =
                 await contract
                   .estimateGas
-                  .forecallWithToken(
+                  .callWithToken(
+                    commandId,
                     chain,
                     sender,
+                    destinationContractAddress,
                     payload,
                     symbol,
                     amount,
-                    address,
                   );
               break;
             default:
@@ -729,10 +743,20 @@ const getOverridesOnRetry = async (
   return overrides;
 };
 
+// generate commandId from transaction id, event index and chain id
+const generateCommandId = (
+  sourceTransactionHash,
+  sourceEventIndex,
+  chainId,
+) => {
+  return '';
+};
+
 module.exports = {
   getSigner,
   getProvider,
   getGasOverrides,
   canRetry,
   getOverridesOnRetry,
+  generateCommandId,
 };

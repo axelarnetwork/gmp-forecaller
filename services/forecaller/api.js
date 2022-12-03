@@ -4,8 +4,9 @@ const {
   log,
 } = require('../../utils');
 
-const service_name = 'api';
 const environment = process.env.ENVIRONMENT;
+
+const service_name = 'api';
 
 // create request object from environment
 const API = (env = environment) => {
@@ -13,12 +14,14 @@ const API = (env = environment) => {
     api,
   } = { ...config?.[env] };
 
-  return api &&
+  return (
+    api &&
     axios.create(
       {
         baseURL: api,
       },
-    );
+    )
+  );
 };
 
 /*********************************************************************************************************************************************
