@@ -7,7 +7,7 @@ const {
   Contract,
   FixedNumber,
   Wallet,
-  providers: { FallbackProvider, JsonRpcProvider },
+  providers: { FallbackProvider, StaticJsonRpcProvider },
   utils: { parseUnits },
 } = require('ethers');
 const {
@@ -78,17 +78,34 @@ const getSigner = (
   return null;
 };
 
+const createRpcProvider = (
+  url,
+  chain_id,
+) => 
+  new StaticJsonRpcProvider(
+    url,
+    chain_id ?
+      Number(chain_id) :
+      undefined,
+  );
+
 // get chain provider
 const getProvider = (
   chain,
 ) => {
   const chains_config = chains;
+
   const {
-    rpc,
-  } = { ...chains_config?.[chain]?.endpoints };
+    chain_id,
+    endpoints,
+  } = {
+    ...chains_config?.[chain],
+  };
 
   /* start normalize rpcs */
-  let rpcs = rpc;
+  let rpcs =
+    endpoints?.rpc ||
+    [];
 
   if (!Array.isArray(rpcs)) {
     rpcs = [rpcs];
@@ -102,14 +119,19 @@ const getProvider = (
   const provider =
     rpcs.length > 0 ?
       rpcs.length === 1 ?
-        new JsonRpcProvider(
-          _.head(rpcs)
+        createRpcProvider(
+          _.head(rpcs),
+          chain_id,
         ) :
         new FallbackProvider(
           rpcs
             .map((url, i) => {
               return {
-                provider: new JsonRpcProvider(url),
+                provider:
+                  createRpcProvider(
+                    url,
+                    chain_id,
+                  ),
                 priority: i + 1,
                 stallTimeout: 1000,
               };
