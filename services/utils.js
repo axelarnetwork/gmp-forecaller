@@ -17,7 +17,7 @@ const config = require('config-yml');
 const {
   log,
 } = require('../utils');
-const IAxelarForecallService = require('../data/contracts/interfaces/IAxelarForecallService.json');
+const IGMPExpressService = require('../data/contracts/interfaces/IGMPExpressService.json');
 
 const environment = process.env.ENVIRONMENT;
 
@@ -27,7 +27,7 @@ const {
   chains,
 } = { ...config?.[environment] };
 
-// get forecaller from chain config
+// get signer from chain config
 const getSigner = (
   chain_config = {},
   provider,
@@ -214,7 +214,7 @@ const getGasOverrides = async (
 
   if (payloadHash) {
     const method_to_do =
-      `forecall${
+      `expressExecute${
         symbol ?
           'WithToken' :
           ''
@@ -224,14 +224,14 @@ const getGasOverrides = async (
     const contract =
       new Contract(
         destinationContractAddress,
-        IAxelarForecallService.abi,
+        IGMPExpressService.abi,
         provider,
       );
 
     // estimate gas
     try {
       switch (method_to_do) {
-        case 'forecall':
+        case 'expressExecute':
           gasLimit =
             await contract
               .estimateGas
@@ -243,7 +243,7 @@ const getGasOverrides = async (
                 payload,
               );
           break;
-        case 'forecallWithToken':
+        case 'expressExecuteWithToken':
           gasLimit =
             await contract
               .estimateGas
@@ -395,6 +395,11 @@ const canRetry = (
       'exceeds the configured cap',
     ];
 
+  const others_error_patterns =
+    [
+      'out of fund',
+    ];
+
   // handle nonce
   if (
     nonce_patterns
@@ -404,13 +409,16 @@ const canRetry = (
             m.includes(p)
           ) > -1
       ) > -1 &&
-    contract_error_patterns
-      .findIndex(p =>
-        error_messages
-          .findIndex(m =>
-            m.includes(p)
-          ) > -1
-      ) < 0
+    _.concat(
+      contract_error_patterns,
+      others_error_patterns,
+    )
+    .findIndex(p =>
+      error_messages
+        .findIndex(m =>
+          m.includes(p)
+        ) > -1
+    ) < 0
   ) {
     return true;
   }
@@ -442,13 +450,16 @@ const canRetry = (
 
   return (
     !ignore_codes.includes(error?.code) &&
-    contract_error_patterns
-      .findIndex(p =>
-        error_messages
-          .findIndex(m =>
-            m.includes(p)
-          ) > -1
-      ) < 0
+    _.concat(
+      contract_error_patterns,
+      others_error_patterns,
+    )
+    .findIndex(p =>
+      error_messages
+        .findIndex(m =>
+          m.includes(p)
+        ) > -1
+    ) < 0
   );
 };
 
@@ -630,7 +641,7 @@ const getOverridesOnRetry = async (
 
       if (payloadHash) {
         const method_to_do =
-          `forecall${
+          `expressExecute${
             symbol ?
               'WithToken' :
               ''
@@ -640,7 +651,7 @@ const getOverridesOnRetry = async (
         const contract =
           new Contract(
             destinationContractAddress,
-            IAxelarForecallService.abi,
+            IGMPExpressService.abi,
             provider,
           );
 
@@ -649,7 +660,7 @@ const getOverridesOnRetry = async (
 
         try {
           switch (method_to_do) {
-            case 'forecall':
+            case 'expressExecute':
               gasLimit =
                 await contract
                   .estimateGas
@@ -661,7 +672,7 @@ const getOverridesOnRetry = async (
                     payload,
                   );
               break;
-            case 'forecallWithToken':
+            case 'expressExecuteWithToken':
               gasLimit =
                 await contract
                   .estimateGas

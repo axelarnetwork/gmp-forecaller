@@ -4,8 +4,8 @@ if (process.env.DEPLOY_ON === 'lambda') {
     context,
     callback,
   ) => {
-    // run forecaller
-    require('./services/forecaller')(
+    // run express
+    require('./services/express')(
       context,
     );
 
@@ -20,6 +20,6 @@ if (process.env.DEPLOY_ON === 'lambda') {
   };
 }
 else {
-  // run forecaller
-  require('./services/forecaller')();
+  // run express
+  require('./services/express')();
 }

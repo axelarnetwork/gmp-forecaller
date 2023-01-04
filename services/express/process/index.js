@@ -4,8 +4,8 @@ const {
   searchGMP,
 } = require('../api');
 const {
-  forecall,
-} = require('./forecall');
+  execute,
+} = require('./execute');
 const {
   sleep,
   equals_ignore_case,
@@ -16,7 +16,7 @@ const environment = process.env.ENVIRONMENT;
 const {
   concurrent_transaction,
   delay_ms_per_batch,
-} = { ...config?.[environment]?.forecall };
+} = { ...config?.[environment]?.express };
 
 const concurrent =
   concurrent_transaction ||
@@ -25,7 +25,7 @@ const delay =
   delay_ms_per_batch ||
   5000;
 
-module.exports.runForecall = async (
+module.exports.runExpress = async (
   chains_config = [],
   context,
 ) => {
@@ -113,7 +113,7 @@ module.exports.runForecall = async (
           // add delay before next message
           await sleep(0.5 * 1000);
 
-          forecall(
+          execute(
             chain_config,
             _data,
           );
