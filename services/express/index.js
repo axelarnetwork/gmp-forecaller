@@ -2,7 +2,7 @@ const AWS = require('aws-sdk');
 const _ = require('lodash');
 const config = require('config-yml');
 const {
-  runForecall,
+  runExpress,
 } = require('./process');
 const {
   getSigner,
@@ -123,7 +123,7 @@ module.exports = context => {
               });
 
           // execute on all chains
-          runForecall(
+          runExpress(
             chains_config,
             context,
           );
@@ -151,7 +151,7 @@ module.exports = context => {
         });
 
     // execute on all chains
-    runForecall(
+    runExpress(
       chains_config,
       context,
     );

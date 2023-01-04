@@ -19,18 +19,18 @@ const {
   sleep,
   equals_ignore_case,
 } = require('../../../utils');
-const IAxelarForecallService = require('../../../data/contracts/interfaces/IAxelarForecallService.json');
+const IGMPExpressService = require('../../../data/contracts/interfaces/IGMPExpressService.json');
 
 const environment = process.env.ENVIRONMENT;
 
-const service_name = 'forecall';
+const service_name = 'express-execute';
 
 const max_retry_time = 2;
 const {
   min_confirmations,
 } = { ...config?.[environment] };
 
-const forecall = async (
+const execute = async (
   chain_config,
   data,
   _overrides,
@@ -94,7 +94,7 @@ const forecall = async (
     const contract =
       new Contract(
         destinationContractAddress,
-        IAxelarForecallService.abi,
+        IGMPExpressService.abi,
         signer,
       );
 
@@ -111,10 +111,10 @@ const forecall = async (
 
     const method_to_do =
       event?.includes('WithToken') ?
-        'forecallWithToken' :
-        'forecall';
+        'expressExecuteWithToken' :
+        'expressExecute';
 
-    // check is gas remaining enough to forecall compare to the estimated gas
+    // check is gas remaining enough to express execute compare to the estimated gas
     if (
       !not_to_forecall &&
       !_overrides
@@ -156,7 +156,7 @@ const forecall = async (
           log(
             'debug',
             service_name,
-            'not forecall',
+            'not express execute',
             {
               transactionHash,
               transactionIndex,
@@ -186,7 +186,7 @@ const forecall = async (
     }
 
     if (not_to_forecall) {
-      // mark not_to_forecall and exit
+      // mark not express execute and exit
       await saveGMP(
         transactionHash,
         transactionIndex,
@@ -272,9 +272,9 @@ const forecall = async (
       input.overrides = overrides;
     }
 
-    // forecall
+    // express execute
     switch (method_to_do) {
-      case 'forecall':
+      case 'expressExecute':
         log(
           'info',
           service_name,
@@ -380,7 +380,7 @@ const forecall = async (
                   data,
                 );
 
-              await forecall(
+              await execute(
                 chain_config,
                 data,
                 overrides,
@@ -389,7 +389,7 @@ const forecall = async (
             }
           });
         break;
-      case 'forecallWithToken':
+      case 'expressExecuteWithToken':
         log(
           'info',
           service_name,
@@ -499,7 +499,7 @@ const forecall = async (
                   data,
                 );
 
-              await forecall(
+              await execute(
                 chain_config,
                 data,
                 overrides,
@@ -515,5 +515,5 @@ const forecall = async (
 };
 
 module.exports = {
-  forecall,
+  execute,
 };

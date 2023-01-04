@@ -1,7 +1,7 @@
 version: '3.6'
 services:
-  axelar-gmp-forecaller:
-    container_name: axelar-gmp-forecaller
+  axelar-gmp-express:
+    container_name: axelar-gmp-express
     image: node:17.7.2-alpine
     build:
       context: .
@@ -11,13 +11,13 @@ services:
       - NODE_NO_WARNINGS=1
       - ENVIRONMENT=testnet
     volumes:
-      - .:/usr/src/axelar-gmp-forecaller
-      - node_modules:/usr/src/axelar-gmp-forecaller/node_modules
+      - .:/usr/src/axelar-gmp-express
+      - node_modules:/usr/src/axelar-gmp-express/node_modules
     networks:
-      - axelar-gmp-forecaller
+      - axelar-gmp-express
     command: npm run start
 volumes:
   node_modules:
 networks:
-  axelar-gmp-forecaller:
+  axelar-gmp-express:
     driver: bridge

@@ -1,40 +1,40 @@
-# General Message Passing Forecaller
+# General Message Passing Express
 
-The forecalling service for General Message Passing.
+The express service for General Message Passing.
 
 # Prerequisite
 
 - Copy `config.yml.example` and paste it as `config.yml`.
-- Set parameters in the `config.yml`. The file contains all conditions on when & which funded wallets to forecall. **Most of the configurations need to be done by the instantiator.**
+- Set parameters in the `config.yml`. The file contains all conditions on when & which funded wallets to express execute. **Most of the configurations need to be done by the instantiator.**
 
 ## config.yml
 
 > :warning: Please make sure to never publish the `config.yml` file.
 
-The `config.yml` file contains the configurations for each network (`mainnet` and `testnet`) for running the forecall service.
+The `config.yml` file contains the configurations for each network (`mainnet` and `testnet`) for running the express service.
 
-Each network contains a forecall, min_confirmations and chains section you must fill to run the forecall service.
+Each network contains a express, min_confirmations and chains section you must fill to run the express service.
 
-- `forecall` specifies the rules based on which the forecall service will run. Those rules are applied to **all supported chains** in the network.
-  - `concurrent_transaction`: The number of transactions that will be forecalled in one batch. Transactions not included in the current batch will be put in a queue and added to the next batch.
+- `express` specifies the rules based on which the express service will run. Those rules are applied to **all supported chains** in the network.
+  - `concurrent_transaction`: The number of transactions that will be express executed in one batch. Transactions not included in the current batch will be put in a queue and added to the next batch.
   - `delay_ms_per_batch`: The delay in milliseconds before starting the next batch.
-- `min_confirmations` specifies the number of confirmations on each source chain before forecalling. The service applies the value specified in `default` to all other chains that are not configured in this section.
+- `min_confirmations` specifies the number of confirmations on each source chain before express execute. The service applies the value specified in `default` to all other chains that are not configured in this section.
 - `chains` specifies the configuration for every supported chain. The following are the required parameters to be modified by the instantiator.
 
-  - `contract_address`: The application's destination contract address. **Only one contract is supported per forecall service**. If the application has multiple contract addresses per chain, we suggest forking the project and running them as separate processes.
+  - `contract_address`: The application's destination contract address. **Only one contract is supported per express service**. If the application has multiple contract addresses per chain, we suggest forking the project and running them as separate processes.
 
   - `ozd`: Specifies the OpenZeppelin Defender's `API Key` and `API Secret Key` to use it as the relayer service. Otherwise, you can leave it blank and set the parameter under `wallet` instead.
   - `wallet`: Specifies the private key of the funded wallet. The service will use Ethers.js's `Wallet` signer to relay transactions with the provided wallet.
 
     > :warning: Please make sure to never publish the `config.yml` file.
 
-    > If `ozd` and `wallet` are both set, the forecaller uses the `ozd` option and ignores the parameter setup in `wallet`.
+    > If `ozd` and `wallet` are both set, the express service uses the `ozd` option and ignores the parameter setup in `wallet`.
 
-    > If you plan to deploy the service as a lambda function on AWS, please follow [this guide](https://github.com/axelarnetwork/gmp-forecaller#setup-openzeppelin-defender-keys-or-wallets-private-keys) instead of specifying `ozd` and `wallet` directly to the `config.yml` file.
+    > If you plan to deploy the service as a lambda function on AWS, please follow [this guide](https://github.com/axelarnetwork/gmp-express#setup-openzeppelin-defender-keys-or-wallets-private-keys) instead of specifying `ozd` and `wallet` directly to the `config.yml` file.
 
-  - `filter`: Specifies more specific criteria to trigger the forecall service.
-    - `source_chains`: Specifies the list of source chains that will be forecalled. Leave it blank to forecall all GMP calls initiated on all supported chains.
-    - `symbols`: The list of assets transferred that will be forecalled. The instantiator must specify each asset's symbol, decimal, and min/max amount conditions. `min` is the minimum, and `max` is the maximum value of each transfer. *This parameter is required. It cannot be blank.* 
+  - `filter`: Specifies more specific criteria to trigger the express service.
+    - `source_chains`: Specifies the list of source chains that will be express executed. Leave it blank to express execute all GMP calls initiated on all supported chains.
+    - `symbols`: The list of assets transferred that will be express executed. The instantiator must specify each asset's symbol, decimal, and min/max amount conditions. `min` is the minimum, and `max` is the maximum value of each transfer. *This parameter is required. It cannot be blank.* 
 
     An example:
 
@@ -50,7 +50,7 @@ Each network contains a forecall, min_confirmations and chains section you must 
           max: 50
     ```
 
-    It means that the forecaller will be triggered when either the source chain is Ethereum or Polygon, the token symbol is axlUSDC, and the amount transferred is in the specified range (5 axlUSDC - 50 axlUSDC).
+    It means that the express service will be triggered when either the source chain is Ethereum or Polygon, the token symbol is axlUSDC, and the amount transferred is in the specified range (5 axlUSDC - 50 axlUSDC).
 
 ```
 ℹ️ Restarting service is needed if any changes have been made through the file after the service has already been started.
@@ -62,8 +62,8 @@ Each network contains a forecall, min_confirmations and chains section you must 
 
 ```
 cd $HOME
-git clone https://github.com/axelarnetwork/gmp-forecaller
-cd gmp-forecaller
+git clone https://github.com/axelarnetwork/gmp-express
+cd gmp-express
 git pull
 ```
 
@@ -98,22 +98,22 @@ default: testnet
 ### start service
 
 ```bash
-cd $HOME/gmp-forecaller
-docker-compose up --build -d axelar-gmp-forecaller
+cd $HOME/gmp-express
+docker-compose up --build -d axelar-gmp-express
 ```
 
 ### view log
 
 ```bash
-cd $HOME/gmp-forecaller
-docker-compose logs -f --tail=100 axelar-gmp-forecaller
+cd $HOME/gmp-express
+docker-compose logs -f --tail=100 axelar-gmp-express
 ```
 
 ### restart service
 
 ```bash
-cd $HOME/gmp-forecaller
-docker-compose restart axelar-gmp-forecaller
+cd $HOME/gmp-express
+docker-compose restart axelar-gmp-express
 ```
 
 ## Deploy on AWS services
@@ -146,8 +146,8 @@ terraform init
 terraform apply
 ```
 
-- open [AWS console](https://console.aws.amazon.com/lambda/home#/functions/axelar-gmp-forecaller-testnet?tab=configure)
-- add trigger EventBridge (CloudWatch Events): `axelar-gmp-forecaller-testnet-rule`
+- open [AWS console](https://console.aws.amazon.com/lambda/home#/functions/axelar-gmp-express-testnet?tab=configure)
+- add trigger EventBridge (CloudWatch Events): `axelar-gmp-express-testnet-rule`
 
 #### Mainnet
 
@@ -158,5 +158,5 @@ terraform init
 terraform apply
 ```
 
-- open [AWS console](https://console.aws.amazon.com/lambda/home#/functions/axelar-gmp-forecaller-mainnet?tab=configure)
-- add trigger EventBridge (CloudWatch Events): `axelar-gmp-forecaller-mainnet-rule`
+- open [AWS console](https://console.aws.amazon.com/lambda/home#/functions/axelar-gmp-express-mainnet?tab=configure)
+- add trigger EventBridge (CloudWatch Events): `axelar-gmp-express-mainnet-rule`
